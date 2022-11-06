@@ -6,9 +6,12 @@ author: Leah Bargnesi
 
 # Introduction
 
-[~ 200 words]
+## Background
+Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides food provisioning, studies have also shown many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007).
 
-Clearly stated background and questions / hypotheses / problems being addressed. Sets up the analysis in an interesting and compelling way.
+## Problem / Question
+
+How has access to community gardens and fridges improved food security in Buffalo, NY and surrounding areas?
 
 # Materials and methods
 
