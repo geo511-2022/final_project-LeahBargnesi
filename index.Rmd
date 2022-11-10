@@ -29,6 +29,7 @@ library(htmltools)
 library(tidyverse)
 library(leaflet)
 library(kableExtra)
+library(knitr)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
