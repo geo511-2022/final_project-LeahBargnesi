@@ -7,7 +7,7 @@ author: Leah Bargnesi
 # Introduction
 
 ## Background
-Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides food provisioning, studies have also shown many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007).
+Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides food provisioning, studies have also shown that these efforts have many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007).
 
 ## Problem / Question
 
@@ -16,64 +16,98 @@ How has access to community gardens and fridges improved food security in Buffal
 # Materials and methods
 
 My goal is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and maybe also see what year they were put in place. I will have to filter out the data sets for Buffalo, NY and surrounding areas. After researching which packages are best for creating interactive maps, I found that the "leaflet" package will be helpful. Also I will most likely use "rgdal" and "raster" packages to analyze the geospatial data. For vector data, "rgdal" is useful and for raster data, the "raster" package. 
-[~ 200 words]
 
-Narrative: Clear narrative description of the data sources and methods. Includes data from at least two sources that were integrated / merged in R.
-
-Code: The code associated with the project is well organized and easy to follow. Demonstrates mastery of R graphics and functions.
-
-Data: The underlying data are publicly accessible via the web and downloaded/accessed within the Rmd script. If you want to use your own data, you must make it available on a website (e.g. Figshare) so that others are able to re-run your code.
-
-You can do bullets like this:
-
-* The first most important thing
-* The second most important thing
-* The third most important thing
-
-You can do numbers like this:
-
-1. The first most important thing
-2. The second most important thing
-3. The third most important thing
-
-See [http://rmarkdown.rstudio.com/](http://rmarkdown.rstudio.com/) for all the amazing things you can do.
-
-
-Here's my first code chunk.
-```{r}
-1+2
-```
-
-Load any required packages in a code chunk (you may need to install some packages):
-
+# Results
+## loading needed packages
 ```{r, message=F, warning=F}
+library(raster)
+library(ggplot2)
+library(ggmap)
+library(rgdal)
+library(rgl)
+library(htmltools)
 library(tidyverse)
 library(leaflet)
 library(kableExtra)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
+
 ## Download and clean all required data
 ```{r}
-n=20
-data=data.frame(x=runif(n,-180,180),
-                y=runif(n,-60,60),
-                size = runif(n, 5, 20),
-                category = factor(
-                  sample(letters[1:5], n, replace = TRUE)
-                  ),
-                value = rnorm(n))
-```
 
-```{r, results='asis'}
-data %>% 
-  slice(1:10) %>% #show only 1:n rows
-  kable(digits=2,align="c")%>% #make table and round to two digits
-  kable_styling(bootstrap_options = 
-                  c("striped", "hover", "condensed", "responsive")) #apply other formatting
-```
+com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv"
 
-Add any additional processing steps here.
+senior_FS20_demog_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/State_of_Senior_Housing_Datasets%20(1)/State%20of%20Senior%20Hunger%20in%202020%20Demographic.csv"
+
+FS20_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2022_2020-2019Data_ToShare.csv"
+
+FS19_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2021_2019Data_ToShare.csv"
+
+FS18_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2020_2018Data_ToShare.csv"
+
+FS17_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2019_2017Data_ToShare.csv"
+
+FS16_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2018_2016Data_ToShare.csv"
+
+FS15_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2017_2015Data_ToShare.csv"
+
+FS14_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2016_2014Data_ToShare.csv"
+
+FS13_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2015_2013Data_ToShare.csv"
+
+FS12_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2014_2012Data_ToShare.csv"
+
+FS11_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2013_2011Data_ToShare.csv"
+
+FS10_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2012_2010Data_ToShare.csv"
+
+FS09_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2011_2009Data_ToShare.csv"
+
+com_data<- read.csv(com_url)
+senior_FS20_demog_data<- read.csv(senior_FS20_demog_url)
+
+FS20_data<- read.csv(FS20_url)%>%
+filter(County..State=="Erie County, New York")
+
+FS19_data<- read.csv(FS19_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS18_data<- read.csv(FS18_url)%>%
+  filter(X.1=="Erie County, New York")
+
+FS17_data<- read.csv(FS17_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS16_data<- read.csv(FS16_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS15_data<- read.csv(FS15_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS14_data<- read.csv(FS14_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS13_data<- read.csv(FS13_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS12_data<- read.csv(FS12_url)%>%
+  filter(County..State=="Erie County, New York")
+ 
+ FS11_data<- read.csv(FS11_url)%>%
+  filter(County..State=="Erie County, New York")
+
+ FS10_data<- read.csv(FS10_url)%>%
+  filter(County..State=="Erie County, New York")
+
+FS09_data<- read.csv(FS09_url)%>%
+  filter(County.Code=="ERIE", State.Name=="NY")
+
+names(com_data)
+names(senior_FS20_demog_data)
+names(FS20_data)
+
+```
 
 # Results
 
@@ -83,20 +117,6 @@ Tables and figures (maps and other graphics) are carefully planned to convey the
 
 Show tables, plots, etc. and describe them.
 
-```{r, fig.width=6, fig.height=3, fig.cap="Map of completely random data"}
-m <- leaflet(data) %>% 
-  addTiles() %>% 
-  addCircleMarkers(~x, ~y, radius = ~size,color = ~as.factor(category)) %>% 
-  addPopups(~x[2], ~y[2], "Random popup")
-m  # a map with the default OSM tile layer
-```
-
-
-```{r}
-data %>% 
-  ggplot(aes(x=x,y=y,col=category))+
-  geom_point()
-```
 
 # Conclusions
 
