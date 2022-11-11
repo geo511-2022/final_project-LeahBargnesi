@@ -30,7 +30,6 @@ library(tidyverse)
 library(leaflet)
 library(kableExtra)
 library(knitr)
- HEAD
 library(dplyr)
 
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
@@ -72,7 +71,6 @@ com_data<- read.csv(com_url)
 senior_FS20_demog_data<- read.csv(senior_FS20_demog_url)
 
 FS20_data<- read.csv(FS20_url)%>%
-
 filter(County..State=="Erie County, New York")%>%
   rename (Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year.)
 
@@ -119,41 +117,6 @@ FS12_data<- read.csv(FS12_url)%>%
 FS09_data<- read.csv(FS09_url)%>%
   filter(County.Code=="ERIE", State.Name=="NY")%>%
   rename(County..State = County.Code, Food_Insecurity = Number.Food.Insecure.Individuals)
-
-filter(County..State=="Erie County, New York")
-
-FS19_data<- read.csv(FS19_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS18_data<- read.csv(FS18_url)%>%
-  filter(X.1=="Erie County, New York")
-
-FS17_data<- read.csv(FS17_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS16_data<- read.csv(FS16_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS15_data<- read.csv(FS15_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS14_data<- read.csv(FS14_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS13_data<- read.csv(FS13_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS12_data<- read.csv(FS12_url)%>%
-  filter(County..State=="Erie County, New York")
- 
- FS11_data<- read.csv(FS11_url)%>%
-  filter(County..State=="Erie County, New York")
-
- FS10_data<- read.csv(FS10_url)%>%
-  filter(County..State=="Erie County, New York")
-
-FS09_data<- read.csv(FS09_url)%>%
-  filter(County.Code=="ERIE", State.Name=="NY")
 
 
 names(com_data)
