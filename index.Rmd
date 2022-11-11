@@ -30,6 +30,9 @@ library(tidyverse)
 library(leaflet)
 library(kableExtra)
 library(knitr)
+ HEAD
+library(dplyr)
+
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
@@ -69,6 +72,54 @@ com_data<- read.csv(com_url)
 senior_FS20_demog_data<- read.csv(senior_FS20_demog_url)
 
 FS20_data<- read.csv(FS20_url)%>%
+
+filter(County..State=="Erie County, New York")%>%
+  rename (Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year.)
+
+FS19_data<- read.csv(FS19_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+  rename (Food_Insecurity = X..of.Food.Insecure.Persons.in.2019)
+
+FS18_data<- read.csv(FS18_url)%>%
+  filter(X.1=="Erie County, New York")%>%
+   rename (Food_Insecurity = X.3, County..State= X.1, Year= X.9)
+
+FS17_data<- read.csv(FS17_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+  rename(Food_Insecurity = X..of.Food.Insecure.Persons.in.2017)
+
+FS16_data<- read.csv(FS16_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+  rename(Food_Insecurity= X..of.Food.Insecure.Persons.in.2016)
+
+FS15_data<- read.csv(FS15_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+   rename(Food_Insecurity= X..of.Food.Insecure.Persons.in.2015)
+
+FS14_data<- read.csv(FS14_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+   rename(Food_Insecurity= X..of.Food.Insecure.Persons.in.2014)
+
+FS13_data<- read.csv(FS13_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+   rename(Food_Insecurity= X..of.Food.Insecure.Persons.in.2013)
+
+FS12_data<- read.csv(FS12_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+   rename(Food_Insecurity= X..of.Food.Insecure.Persons.in.2012)
+ 
+ FS11_data<- read.csv(FS11_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+    rename(Food_Insecurity= Number.of.Food.Insecure.Persons.in.2011)
+
+ FS10_data<- read.csv(FS10_url)%>%
+  filter(County..State=="Erie County, New York")%>%
+   rename(Food_Insecurity= Number.of.Food.Insecure.Persons.in.2010)
+
+FS09_data<- read.csv(FS09_url)%>%
+  filter(County.Code=="ERIE", State.Name=="NY")%>%
+  rename(County..State = County.Code, Food_Insecurity = Number.Food.Insecure.Individuals)
+
 filter(County..State=="Erie County, New York")
 
 FS19_data<- read.csv(FS19_url)%>%
@@ -104,6 +155,7 @@ FS12_data<- read.csv(FS12_url)%>%
 FS09_data<- read.csv(FS09_url)%>%
   filter(County.Code=="ERIE", State.Name=="NY")
 
+
 names(com_data)
 names(senior_FS20_demog_data)
 names(FS20_data)
@@ -117,6 +169,23 @@ names(FS20_data)
 Tables and figures (maps and other graphics) are carefully planned to convey the results of your analysis. Intense exploration and evidence of many trials and failures. The author looked at the data in many different ways before coming to the final presentation of the data.
 
 Show tables, plots, etc. and describe them.
+
+
+Urban farm and fridges locations
+```{r}
+com_data%>%
+  drop_na()%>%
+leaflet(options = 
+        leafletOptions(minZoom = 5, dragging = TRUE))%>%
+  addProviderTiles(provider = "Esri")%>%
+  addMarkers(lng = com_data$long, lat = com_data$lat, popup = ~paste0(Name, "<br/>", Type, "<br/>", Address, "<br/>", Start.Year))%>%
+  setView(lat=42.94991, lng=-78.89927, zoom=11)
+
+  
+  
+
+
+```
 
 
 # Conclusions
