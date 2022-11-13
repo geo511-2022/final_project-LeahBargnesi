@@ -119,10 +119,6 @@ FS09_data<- read.csv(FS09_url)%>%
   rename(County..State = County.Code, Food_Insecurity = Number.Food.Insecure.Individuals)
 
 
-names(com_data)
-names(senior_FS20_demog_data)
-names(FS20_data)
-
 ```
 
 # Results
