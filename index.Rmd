@@ -81,8 +81,8 @@ FS19_data<- read.csv(FS19_url)%>%
 
 FS18_data<- read.csv(FS18_url)%>%
   filter(X.1=="Erie County, New York")%>%
-   rename (Food_Insecurity = X.3, County..State= X.1, Year= X.21)%>%
-  type.convert(FS18_data$Year, integer)
+   rename (Food_Insecurity = X.3, County..State= X.1, Year= X.21)
+  #type.convert(FS18_data$Year, integer)
 
 FS17_data<- read.csv(FS17_url)%>%
   filter(County..State=="Erie County, New York")%>%
@@ -126,25 +126,25 @@ FS09_data<- read.csv(FS09_url)%>%
 ## join datasets
 ```{r}
 merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", all.x = TRUE, all.y = FALSE)
-merge1817<- merge(FS18_data, FS17_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
-merge1615<- merge(FS16_data, FS15_data, by = c("Year", "Food_Insecurity"))
-merge1413<- merge(FS14_data, FS13_data, by = c("Year", "Food_Insecurity"))
-merge1211<- merge(FS12_data, FS11_data, by = c("Year", "Food_Insecurity"))
-merge1009<- merge(FS10_data, FS09_data, by = c("Year", "Food_Insecurity"))
+#merge1817<- merge(FS18_data, FS17_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
+#merge1615<- merge(FS16_data, FS15_data, by = c("Year", "Food_Insecurity"))
+#merge1413<- merge(FS14_data, FS13_data, by = c("Year", "Food_Insecurity"))
+#merge1211<- merge(FS12_data, FS11_data, by = c("Year", "Food_Insecurity"))
+#merge1009<- merge(FS10_data, FS09_data, by = c("Year", "Food_Insecurity"))
 
-merge1917<- merge(food_join2019, food_join1817, by = c("Year", "Food_Insecurity"))
-merge1513<- merge(food_join1615, food_join1413, by = c("Year", "Food_Insecurity"))
-merge1109<- merge(food_join1211, food_join1009, by = c("Year", "Food_Insecurity"))
+#merge1917<- merge(food_join2019, food_join1817, by = c("Year", "Food_Insecurity"))
+#merge1513<- merge(food_join1615, food_join1413, by = c("Year", "Food_Insecurity"))
+#merge1109<- merge(food_join1211, food_join1009, by = c("Year", "Food_Insecurity"))
 
-merge1713<- merge(join1917, join1513, by = c("Year", "Food_Insecurity"))
+#merge1713<- merge(join1917, join1513, by = c("Year", "Food_Insecurity"))
 
-final_merge<- merge(join1713, join1109, by = c("Year", "Food_Insecurity"))
+#final_merge<- merge(join1713, join1109, by = c("Year", "Food_Insecurity"))
 
 ```
 ## plot food insecurity over time
 ```{r}
-ggplot(final_join, aes(Year, Food_Insecurity))+
-  geom_point()
+#ggplot(final_join, aes(Year, Food_Insecurity))+
+  #geom_point()
 
 
 ```
