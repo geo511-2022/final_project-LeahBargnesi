@@ -158,7 +158,7 @@ Tables and figures (maps and other graphics) are carefully planned to convey the
 Show tables, plots, etc. and describe them.
 
 
-Urban farm and fridges locations
+## Urban farm and fridges locations
 ```{r}
 com_data%>%
   drop_na()%>%
