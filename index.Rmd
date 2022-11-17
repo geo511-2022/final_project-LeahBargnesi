@@ -141,7 +141,7 @@ merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", 
 #final_merge<- merge(join1713, join1109, by = c("Year", "Food_Insecurity"))
 
 ```
-## plot food insecurity over time
+## Food insecurity over time
 ```{r}
 #ggplot(final_join, aes(Year, Food_Insecurity))+
   #geom_point()
@@ -173,7 +173,7 @@ leaflet(options =
 
 
 ```
-## Food Insecurity and Food Provisioning
+## Food Insecurity and Food Provisioning Over Time
 
 # Conclusions
 
