@@ -1,6 +1,6 @@
 ---
 title: "Prevalence of Community Gardens and Fridges in Areas of Food Insecurity in Buffalo, NY"
-author: Leah Bargnesi
+authors: Leah Bargnesi and Candace Kasahara
 output:
   HTML
 ---
@@ -14,14 +14,14 @@ Food Insecurity is a serious issue that affects 10.5% of America as of 2019, acc
 
 How has access to community gardens and fridges improved food security in Buffalo, NY and surrounding areas?
 
-# Materials and methods
+# Materials and Methods
 
 The goal of this website is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and what year they were put in place. The data sets will be filtered out for Buffalo, NY and surrounding areas. The leaflet package will be utilized to make interactive maps. Data for food insecurity was requested and gathered from Feeding America, and locations of community gardens were requested and gathered from the University at Buffalo's Food Lab. Demographic data will also eventually be used and the package tidy census may be helpful for this.
 
 # Results
 
 
-## loading needed packages
+## Loading Needed Packages
 ```{r, message=F, warning=F}
 library(raster)
 library(ggplot2)
@@ -39,7 +39,7 @@ knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
 
-## Download and clean all required data
+## Download Required Data
 ```{r}
 
 com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv"
@@ -69,9 +69,14 @@ FS11_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBarg
 FS10_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2012_2010Data_ToShare.csv"
 
 FS09_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2011_2009Data_ToShare.csv"
+```
 
+
+## Clean all Required Data
+```{r}
 com_data<- read.csv(com_url)
-senior_FS20_demog_data<- read.csv(senior_FS20_demog_url)
+
+senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecuirty demographic data for 2020 from Feeding America
 
 FS20_data<- read.csv(FS20_url)%>%
 filter(County..State=="Erie County, New York")%>%
