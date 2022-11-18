@@ -8,7 +8,7 @@ output:
 # Introduction
 
 ## Background
-Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides food provisioning, studies have also shown that these efforts have many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007).
+Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides providing food provisioning, studies have also shown that these efforts have many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007). The goal of this website is to show how these community efforts have improved food security over time. Demographic data will also be looked at. However, there are some limitations to this. There wasn't information on when each garden was founded, so some have no start dates. The other limitation is these maps right now can only show how food security may have improved and not the other benefits that were previously mentioned. Also, the COVID-19 pandemic did generally worsen food insecurity. Nevertheless, the idea is to show the importance of these community efforts.
 
 ## Problem / Question
 
@@ -16,9 +16,11 @@ How has access to community gardens and fridges improved food security in Buffal
 
 # Materials and methods
 
-My goal is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and maybe also see what year they were put in place. I will have to filter out the data sets for Buffalo, NY and surrounding areas. After researching which packages are best for creating interactive maps, I found that the "leaflet" package will be helpful. Also I will most likely use "rgdal" and "raster" packages to analyze the geospatial data. For vector data, "rgdal" is useful and for raster data, the "raster" package. 
+The goal of this website is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and what year they were put in place. The data sets will be filtered out for Buffalo, NY and surrounding areas. The leaflet package will be utilized to make interactive maps. Data for food insecurity was requested and gathered from Feeding America, and locations of community gardens were requested and gathered from the University at Buffalo's Food Lab. Demographic data will also eventually be used and the package tidy census may be helpful for this.
 
 # Results
+
+
 ## loading needed packages
 ```{r, message=F, warning=F}
 library(raster)
@@ -123,7 +125,7 @@ FS09_data<- read.csv(FS09_url)%>%
 
 ```
 
-## join datasets
+## Join Food Insecurity Datasets
 ```{r}
 merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", all.x = TRUE, all.y = FALSE)
 #merge1817<- merge(FS18_data, FS17_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
@@ -141,24 +143,15 @@ merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", 
 #final_merge<- merge(join1713, join1109, by = c("Year", "Food_Insecurity"))
 
 ```
-## Food insecurity over time
-```{r}
-#ggplot(final_join, aes(Year, Food_Insecurity))+
-  #geom_point()
 
 
-```
 
 # Results
 
-[~200 words]
-
-Tables and figures (maps and other graphics) are carefully planned to convey the results of your analysis. Intense exploration and evidence of many trials and failures. The author looked at the data in many different ways before coming to the final presentation of the data.
-
-Show tables, plots, etc. and describe them.
 
 
 ## Urban farm and fridges locations
+
 ```{r}
 com_data%>%
   drop_na()%>%
@@ -173,7 +166,21 @@ leaflet(options =
 
 
 ```
+
+
+## Plot of Food insecurity over time
+Currently working on merging the data frames so that I can have all years of food security on one map.
+```{r}
+#ggplot(final_join, aes(Year, Food_Insecurity))+
+  #geom_point()
+
+
+```
+
+
+
 ## Food Insecurity and Food Provisioning Over Time
+Will have an interactive map with food insecurity and community efforts on same map.
 
 # Conclusions
 
@@ -189,3 +196,5 @@ Hess, D., & Winner, L. (2007). Enhancing Justice and Sustainability at the Local
 Overall (all ages) Hunger & Poverty in the United States | Map the Meal Gap. (n.d.). Retrieved October 11, 2022, from https://map.feedingamerica.org
 
 Silva, C. (2020, September 27). Food Insecurity In The U.S. By The Numbers. NPR. https://www.npr.org/2020/09/27/912486921/food-insecurity-in-the-u-s-by-the-numbers
+
+Story Map Series. 2022 . https://suny-buffalo.maps.arcgis.com/apps/MapSeries/index.html?appid=7a3b2029ff374ac282a90573776ebffe.
