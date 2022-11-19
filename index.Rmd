@@ -8,7 +8,7 @@ output:
 # Introduction
 
 ## Background
-Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts. Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides providing food provisioning, studies have also shown that these efforts have many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007). The goal of this website is to show how these community efforts have improved food security over time. Demographic data will also be looked at. However, there are some limitations to this. There wasn't information on when each garden was founded, so some have no start dates. The other limitation is these maps right now can only show how food security may have improved and not the other benefits that were previously mentioned. Also, the COVID-19 pandemic did generally worsen food insecurity. Nevertheless, the idea is to show the importance of these community efforts.
+Food Insecurity is a serious issue that affects 10.5% of America as of 2019, according to NPR (2020). Additionally, due to systemic racism, Black and Hispanic Americans are twice as likely to face food insecurity compared to their white counterparts . Particularly, for Erie County, Feeding America (2020) states that 12% of residents are food insecure (110,390 individuals). Community efforts to support Buffalo and Erie County residents have taken the form of urban agriculture and community fridges. Besides providing food provisioning, studies have also shown that these efforts have many other social perks such as recreational benefits and a decrease in crime (Hess and Winner, 2007). The goal of this website is to show how these community efforts have improved food security over time.  Demographic data will also be looked at. However, there are some limitations to this. There wasn't information on when each garden was founded, so some have no start dates. The other limitation is these maps right now can only show how food security may have improved and not the other benefits that were previously mentioned. Also, the COVID-19 pandemic did generally worsen food insecurity. Nevertheless, the idea is to show the importance of these community efforts.
 
 ## Problem / Question
 
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ## Download Required Data
 ```{r}
 
-com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv"
+com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv" 
 
 senior_FS20_demog_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/State_of_Senior_Housing_Datasets%20(1)/State%20of%20Senior%20Hunger%20in%202020%20Demographic.csv"
 
@@ -78,7 +78,7 @@ com_data<- read.csv(com_url)
 
 senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecuirty demographic data for 2020 from Feeding America
 
-FS20_data<- read.csv(FS20_url)%>%
+FS20_data<- read.csv(FS20_url)%>% 
 filter(County..State=="Erie County, New York")%>%
   rename (Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year.)
 
