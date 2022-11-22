@@ -1,0 +1,149 @@
+Type,Name,Address,Start Year,long,lat
+Fridge,Buffalo Community Fridge,"286 E Ferry, Buffalo, NY",2020,-78.85354744,42.91517978
+Fridge,Big Herk Fridge,"167 Herkimer St, Buffalo, NY",2020,-78.89273099,42.91749211
+Fridge,Buffalo Collegiate Love Fridge,"45 Jewett Ave., Buffalo, NY",2021,-78.84239929,42.93391666
+Fridge,Fridge at Gloria J. Parks Community,"3242 Main St., Buffalo, NY",2022,-78.82504786,42.95261654
+Urban Farm,5 Loaves Farm,"1172 West Ave, Buffalo, NY",2016,-78.7927981,42.90763736
+Urban Farm,WestSide Tilth Farm,"246 Normal Ave, Buffalo, NY",2017,-78.88900012,42.90701691
+Urban Farm,Common Roots Urban Farm,"309 Peckham St, Buffalo, NY",2012,-78.84278961,42.88760134
+Urban Farm,Massachusetts Avenue Project,"387 Massachusetts Ave, Buffalo, NY",1992,-78.88767837,42.91286022
+Urban Farm,African Heritage Food Co-op,"132 Edison Ave Buffalo, NY",2016,-78.80231479,42.9266366
+Urban Farm,Brewster Street Farm,"119 Jewett Ave, Buffalo, NY",2012,-78.83974454,42.93401033
+Urban Farm,Flat #12 Mushrooms,"37 Chandler St Buffalo, New York",,-78.89019599,42.94323996
+Urban Farm,Gro-Operative,"1430 Clinton St Buffalo, NY ",,-78.82217316,42.8735918
+Urban Farm,Groundwork Market Garden,"1698 Genesee St, Buffalo, NY",,-78.81817642,42.91237195
+Urban Farm,Kubed Root,"33 Pannell St. #1 Buffalo, NY ",,-78.83715794,42.93940788
+Urban Farm,Michigan-Riley Urban Farm,"108 Riley St, Buffalo, NY",2011,-78.86174361,42.90990648
+Urban Farm,Urban Fruits & Veggies,"Dupont St. and Glenwood Ave. Buffalo, NY",,-78.85289889,42.91246659
+Urban Farm,Vertical Fresh Farms,"1585 Kenmore Avenue Buffalo, NY",,-78.87657713,42.95894562
+Urban Farm,Wilson Street Urban Farms,"360 Wilson Street Buffalo, NY ",,-78.84043656,42.89511674
+Urban Farm,Farmer Pirates,"0 Gittere St, Buffalo, NY ",,-78.82695319,42.90164308
+Community Garden,D'youville Porter,255 Porter Ave Buffalo,,-78.89244682,42.90082787
+Community Garden,Dr. Antonia School of Excellence,125 Hampshire St Buffalo,,-78.89610973,42.91079528
+Community Garden,Hillery Park,73 Pawnee Pkwy Buffalo,,-78.80933843,42.86186731
+Community Garden,Frank Sedita,21 Lowell Pl Buffalo,,-78.88605503,42.90955689
+Community Garden,Hariett Ross Tubman,195 Stanton St Buffalo,,-78.84568646,42.88892247
+Community Garden,Hariett Ross Tubman,193 Stanton St Buffalo,,-78.84564354,42.88890822
+Community Garden,Hariett Ross Tubman,191 Stanton St Buffalo,,-78.84561036,42.88872303
+Community Garden,Bennet Park Montesson,342 Clinton St Buffalo,,-78.8619502,42.88407625
+Community Garden,Futures Acadamy,157 Orange St Buffalo,,-78.85806846,42.89913947
+Community Garden,Futures Acadamy,155 Orange St Buffalo,,-78.85807449,42.89915542
+Community Garden,Futures Acadamy,136 Peach St Buffalo,,-78.85767727,42.89897901
+Community Garden,Futures Acadamy,288 Carlton St Buffalo,,-78.85828773,42.89878601
+Community Garden,Futures Acadamy,290 Carlton St Buffalo,,-78.85816154,42.89889304
+Community Garden,Futures Acadamy,294 Carlton St Buffalo,,-78.85813292,42.89877015
+Community Garden,Futures Acadamy,296 Carlton St Buffalo,,-78.85798627,42.89880445
+Community Garden,Futures Acadamy,300 Carlton St Buffalo,,-78.85789819,42.89884031
+Community Garden,Futures Acadamy,304 Carlton St Buffalo,,-78.857721,42.89877915
+Community Garden,Futures Acadamy,306 Carlton St Buffalo,,-78.85759827,42.89883389
+Community Garden,Lovejoy Discovery,157 Gold St Buffalo,,-78.80456909,42.88923133
+Community Garden,International,141 Hoyt St Buffalo,,-78.8866241,42.91969606
+Community Garden,Olmsted,874 Amherst St Buffalo,,-78.87168066,42.94132439
+Community Garden,Herman Badillo,315 Carolina St Buffalo,,-78.87798567,42.89417856
+Community Garden,Highgate Heights,600 Highgate Ave Buffalo,,-78.80627292,42.94877147
+Community Garden,Collegiate Acadamy,756 St Lawrence Ave Buffalo,,-78.84157019,42.95666553
+Community Garden,West Hertel Acadamy,489 Hertel Ave Buffalo,,-78.8902223,42.94569179
+Community Garden,Waterfront Elementary,95 4th St Buffalo,,-78.88436042,42.88706641
+Community Garden,Harvey Austin,1405 Sycamore St Buffalo,,-78.81936653,42.90353924
+Community Garden,Acadamy School,425 South Park Ave Buffalo,,-78.86375225,42.87093312
+Community Garden,Olmsted,319 Suffolk St Buffalo,,-78.8098218,42.9313162
+Community Garden,Pelion Community Garden at City Honors,206 Best St Buffalo,,-78.86067469,42.90435435
+Community Garden,Pelion Community Garden at City Honors,208 Best St Buffalo,,-78.86056519,42.90435415
+Community Garden,Pelion Community Garden at City Honors,210 Best St Buffalo,,-78.85513859,42.90389851
+Community Garden,Pelion Community Garden at City Honors,212 Best St Buffalo,,-78.86027627,42.90422171
+Community Garden,Bennet High,2885 Main St Buffalo,,-78.83151684,42.94343918
+Community Garden,Lafayette High,370 Lafayette Ave Buffalo,,-78.88488116,42.92098688
+Community Garden,East High,835 Northampton St Buffalo,,-78.83566769,42.90730736
+Community Garden,East High,831 Northampton St Buffalo,,-78.83596754,42.9072073
+Community Garden,Tapestry Charter School,65 Great Arrow Ave Buffalo,,-78.8702883,42.94263908
+Community Garden,Universal School,1957 Genesee St Buffalo,,-78.80947549,42.9138598
+Community Garden,Westminister Charter School,24 Westminster Ave Buffalo,,-78.8129062,42.93958784
+Community Garden,African Community Garden,"52 Arnold St, Buffalo",,-78.8883502,42.91643024
+Community Garden,Barakah Community Garden,384 Sweet Ave,2012,-78.83379039,42.90036669
+Community Garden,Blackrock Heritage Garden,269 Dearborn St Buffalo,2012,-78.90198173,42.9368748
+Community Garden,BMHA AD Price ComeUnity Garden,45 Mortimer St Buffalo,2012,-78.85463417,42.88657526
+Community Garden,BMHA Marine Drive Apartments,147 Marine Dr Buffalo,2014,-78.88024839,42.8784251
+Community Garden,BMHA Mullen Manor,200 Mineral Springs Buffalo,2012,-78.8061991,42.86068076
+Community Garden,BMHA Perry,124 Fulton St Buffalo,2012,-78.86649692,42.8736652
+Community Garden,BMHA Richmond Summer Senior Center,"337 Summer St Buffalo, NY 14222",2014,-78.88114462,42.90514168
+Community Garden,Buffalo Niagara Medical Campus/MOOT Center,292 High St Buffalo,2012,-78.85814716,42.90059688
+Community Garden,Calvary Church,1007 Ellicott St Buffalo,2012,-78.86515659,42.90561629
+Community Garden,Cazenovia Community Resource Center/SAIL Buffalo,2 Fuhrmann Blvd Buffalo,2012,-78.88312984,42.87590575
+Community Garden,Cambridge Avenue Community Garden,249 Cambridge Ave,,-78.82283522,42.92169201
+Community Garden,Cottage Garden,60 York St Buffalo,2012,-78.88722854,42.90434444
+Community Garden,Edison Community Garden,132 Edison Avenue,2019,-78.80234697,42.9266366
+Community Garden,Endeavor Health Services,1131 Broadway Buffalo,2019,-78.83292722,42.89417988
+Community Garden,Erie County Youth Detention Center,810 E Ferry St,2013,-78.83559927,42.91549598
+Community Garden,Fargo Estate Garden,272 Jersey St,2019,78.8874869,42.90176574
+Community Garden,Farmer's Garden,104 Farmer St,,-78.90229882,42.94094414
+Community Garden,Farmer's Garden,108 Farmer St,,-78.90212792,42.94100819
+Community Garden,First Presbyterian Church Garden,9 St Johns Pl,,-78.88159473,42.90110915
+Community Garden,Feedmore WNY Community Garden,88 Holt St,,-78.8306992,42.88192013
+Community Garden,Gazebo Park / Fruitbelt Coalition Inc.,37 Mulberry St,,-78.862706,42.89457048
+Community Garden,Garden in the Sun,382 Fargo Ave Buffalo,,-78.89409173,42.90666315
+Community Garden,Garden of Stewardship,59 Timon St Buffalo,2012,-78.84983119,42.90193515
+Community Garden,Girard Place Garden of Love,66 Girard Pl Buffalo,2011,-78.8404408,42.90879956
+Community Garden,Girard Place Garden of Love,72 Girard Pl Buffalo,,-78.8404791,42.90883985
+Community Garden,JERS Community Garden,117 Jewett Ave Buffalo,2015,-78.83996619,42.9339468
+Community Garden,Greenwood Garden,97 Greenwood Pl Buffalo,,-78.88845197,42.92301119
+Community Garden,Greenwood Garden,99 Greenwood Pl Buffalo,2012,-78.88836463,42.92315196
+Community Garden,Humber-Grider Community Garden,852 E Delavan Ave Buffalo,,-78.82533965,42.92284183
+Community Garden,Hutchinson Block Club,221 Hutchinson Ave Buffalo,,-78.8152486,42.93806385
+Community Garden,Brewster Street Farm,119 Jewett Ave Buffalo,,-78.83981965,42.93400248
+Community Garden,Jewish Family Services,70 Barker St Buffalo,,-78.87074857,42.90646495
+Community Garden,JW / Murphy Memorial Garden,14 Herman St Buffalo,2019,-78.84496592,42.89249805
+Community Garden,King Urban Life Center Community Garden,914 Genesee St Buffalo,,-78.84387967,42.90082531
+Community Garden,Lincoln Memorial United Church,17 Florida St Buffalo,,-78.8584923,42.92023109
+Community Garden,Lombard Clark Block Club,71 Lombard St Buffalo,2012,-78.836788,42.88816678
+Community Garden,Lugar Hermoso de Pedro,214 West Ave Buffalo,,-78.88458189,42.89855861
+Community Garden,Lugar Hermoso de Pedro,278 Hudson St Buffalo,,-78.88427992,42.89881261
+Community Garden,MAP Youth Garden,345 Breckenridge St Buffalo,,-78.88864417,42.91672327
+Community Garden,Maryland Street Community Garden,259 Maryland St Buffalo,,-78.88325419,42.89642089
+Community Garden,Mayer Street Community Garden,93 Mayer Ave Buffalo,2018,-78.89927422,42.94990786
+Community Garden,Michigan Riley Farm,108 Riley St Buffalo,,-78.86172215,42.90989076
+Community Garden,Michigan Street Corridor,517 Michigan Ave Buffalo,,-78.86732657,42.88660258
+Community Garden,Michigan Street Corridor,36 Nash St Buffalo,,-78.86667189,42.88602946
+Community Garden,Mulberry and Friends,124 Mulberry St Buffalo,,-78.86243,42.89703419
+Community Garden,Mulberry Garden,220 Jersey St Buffalo,2012,-78.88905759,42.9008997
+Community Garden,Old First Ward Community Garden,104 Vincennes St Buffalo,2012,-78.86322315,42.86765297
+Community Garden,Paderewski Community Garden,400 Paderewski Dr Buffalo,2010,-78.83398754,42.88996828
+Community Garden,Potomac Community Garden,294 Potomac Ave Buffalo,,-78.88842554,42.92449596
+Community Garden,Prospect Community Garden,109 Prospect Ave Buffalo,,-78.88172713,42.89257019
+Community Garden,Putnam Street Community Garden,83 Putnam St Buffalo,2013,-78.88408246,42.91938502
+Community Garden,Resurrection Garden,"1609 Genesee St Buffalo, NY",,-78.82081307,42.90979502
+Community Garden,Riverside Peace Garden,179 Ontario St Buffalo,2011,-78.90337482,42.94995714
+Community Garden,Rosa Gibson Garden of Love,495 Northampton St Buffalo,2005,-78.84849827,42.90735444
+Community Garden,Rosa Gibson Garden of Love,493 Northampton St Buffalo,,-78.8487264,42.90742104
+Community Garden,Rosa Gibson Garden of Love,499 Northampton St Buffalo,,-78.84836754,42.90730829
+Community Garden,Rosa Gibson Garden of Love,501 Northampton St Buffalo,,-78.84827,42.90729743
+Community Garden,Seneca Babcock Neighborhood Community Garden,1179 Seneca St Buffalo,,-78.83502848,42.87064759
+Community Garden,Serenity Garden,363 West Ave Buffalo,,-78.88759183,42.90244245
+Community Garden,Shakespeare Garden,453 Porter Ave Buffalo,,-78.88592689,42.90249902
+Community Garden,South Fillmore Block Club,74 Gibson St Buffalo,,-78.83841919,42.88760431
+Community Garden,Spirit of Truth,115 Gold St Buffalo,,-78.80468694,42.88809138
+Community Garden,Square Community Garden & Farmer's Market,1590 Fillmore Ave Buffalo,2018,-78.83983582,42.91721926
+Community Garden,Square Community Garden & Farmer's Market,17 Rickert Ave Buffalo,,-78.84027202,42.91693669
+Community Garden,Square Community Garden & Farmer's Market,19 Rickert Ave Buffalo,,-78.84031634,42.9187195
+Community Garden,Square Community Garden & Farmer's Market,21 Rickert Ave Buffalo,,-78.8398111,42.91709812
+Community Garden,Trinity Tupper Community Garden,209 W Tupper St Buffalo,2012,-78.87912126,42.89531388
+Community Garden,Trinity Tupper Community Garden,92 Trinity Pl Buffalo,,-78.87912775,42.89539874
+Community Garden,Tyler Street Community Garden,73 Tyler St Buffalo,2012,-78.82903982,42.95307688
+Community Garden,University District Block Club Coalition Garden,3259 Bailey Ave Buffalo,,-78.81339037,42.94373276
+Community Garden,Valley Community Garden,94 Leddy St Buffalo,,-78.85114323,42.86846626
+Community Garden,Vermont Triangle Community Garden,395 Vermont St Buffalo,2011,-78.88495202,42.90956286
+Community Garden,Victoria Avenue Block Club,195 Victoria Ave Buffalo,2013,-78.83188549,42.93518393
+Community Garden,We Care Community Gardens,622 Sycamore St Buffalo,2005,-78.84804532,42.89516046
+Community Garden,We Care Community Gardens,623 Sycamore St Buffalo,2005,-78.84787544,42.89475183
+Community Garden,We Care Community Gardens,621 Sycamore St Buffalo,2005,-78.84807151,42.89462916
+Community Garden,We Care Community Gardens,603 Sycamore St Buffalo,2005,-78.84863318,42.89456525
+Community Garden,We Care Community Gardens,601 Sycamore St Buffalo,2005,-78.84880407,42.89442283
+Community Garden,We Care Community Gardens,595 Sycamore St Buffalo,2005,-78.84899042,42.89445771
+Community Garden,West Avenue Community Garden,635 West Ave Buffalo,,-78.89338819,42.90871071
+Community Garden,West Avenue Community Garden,633 West Ave Buffalo,,-78.89333892,42.90875773
+Community Garden,West Side Community Services,161 Vermont St Buffalo,,-78.8918627,42.90588765
+Community Garden,West Utica Garden,244 W Utica St Buffalo,2005,-78.87560389,42.91149878
+Community Garden,Winslow Avenue Block Club Memorial Garden,132 Winslow Ave Buffalo,2019,-78.84803029,42.91336898
+Community Garden,Winslow Avenue Block Club Memorial Garden,130 Winslow Ave Buffalo,,-78.84792536,42.91350256
+Community Garden,Winslow Avenue Block Club Memorial Garden,136 Winslow Ave Buffalo,,-78.8477434,42.91352443
+Community Garden,Woltz Community Garden,94 Woltz Ave Buffalo,,-78.83584282,42.89660217
+Community Garden,Woltz Community Garden,96 Woltz Ave Buffalo,,-78.83584282,42.89669689
