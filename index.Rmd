@@ -130,22 +130,117 @@ FS09_data<- read.csv(FS09_url)%>%
 
 ```
 
+## Change Columns to match eachother
+```{r}
+names(FS19_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS19_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS19_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS19_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS19_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS19_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS19_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS18_data)[1]<- "FIPS"
+names(FS18_data)[2]<- "State"
+names(FS18_data)[3]<- "County..State"
+names(FS18_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS18_data)[6]<- "Low.Threshold.in.state"
+names(FS18_data)[7]<- "Low.Threshold.Type"
+names(FS18_data)[8]<- "High.Threshold.in.state"
+names(FS18_data)[9]<- "High.Threshold.Type"
+names(FS18_data)[10]<- "X..FI...Low.Threshold"
+names(FS18_data)[11]<- "X..FI.Btwn.Thresholds"
+names(FS18_data)[12]<- "X..FI...High.Threshold"
+names(FS18_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS18_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS18_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS18_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS18_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS18_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS17_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS17_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS17_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS17_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS17_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS17_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS17_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS16_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS16_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS16_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS16_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS16_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS16_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS16_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS15_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS15_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS15_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS15_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS15_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS15_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS15_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS14_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS14_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS14_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS14_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS14_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS14_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS14_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS13_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS13_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS13_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS13_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS13_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS13_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS13_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS12_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS12_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS12_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS12_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS12_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS12_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS12_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS11_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS11_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS11_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS11_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS11_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS11_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS11_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS10_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+names(FS10_data)[13]<- "Child.Food.Insecurity.Rate..1.Year."
+names(FS10_data)[14]<- "X..of.Food.Insecure.Children..1.Year."
+names(FS10_data)[15]<- "X..food.insecure.children.in.HH.w..HH.incomes.below.185.FPL"
+names(FS10_data)[16]<- "X..food.insecure.children.in.HH.w..HH.incomes.above.185.FPL"
+names(FS10_data)[17]<- "Cost.Per.Meal..1.Year."
+names(FS10_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
+
+names(FS09_data)[4]<- "Overall.Food.Insecurity.Rate..1.Year."
+```
+
 ## Join Food Insecurity Datasets
 ```{r}
-merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", all.x = TRUE, all.y = FALSE)
-#merge1817<- merge(FS18_data, FS17_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
-#merge1615<- merge(FS16_data, FS15_data, by = c("Year", "Food_Insecurity"))
-#merge1413<- merge(FS14_data, FS13_data, by = c("Year", "Food_Insecurity"))
-#merge1211<- merge(FS12_data, FS11_data, by = c("Year", "Food_Insecurity"))
-#merge1009<- merge(FS10_data, FS09_data, by = c("Year", "Food_Insecurity"))
+merge2019<- merge(FS20_data, FS19_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
+merge1817<- merge(FS18_data, FS17_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = TRUE)
+merge1615<- merge(FS16_data, FS15_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = TRUE)
+merge1413<- merge(FS14_data, FS13_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = TRUE)
+merge1211<- merge(FS12_data, FS11_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = TRUE)
+merge1009<- merge(FS10_data, FS09_data, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = TRUE)
 
-#merge1917<- merge(food_join2019, food_join1817, by = c("Year", "Food_Insecurity"))
-#merge1513<- merge(food_join1615, food_join1413, by = c("Year", "Food_Insecurity"))
-#merge1109<- merge(food_join1211, food_join1009, by = c("Year", "Food_Insecurity"))
+merge1917<- merge(merge2019, merge1817, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
+merge1513<- merge(merge1615, merge1413, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
+merge1109<- merge(merge1211, merge1009, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
 
-#merge1713<- merge(join1917, join1513, by = c("Year", "Food_Insecurity"))
+merge1713<- merge(merge1917, merge1513, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
 
-#final_merge<- merge(join1713, join1109, by = c("Year", "Food_Insecurity"))
+final_merge<- merge(merge1713, merge1109, by.x= "Year", by.y = "Food_Insecurity", all.x= TRUE, all.y = FALSE)
 
 ```
 
