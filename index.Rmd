@@ -72,6 +72,38 @@ FS10_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargn
 FS09_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2011_2009Data_ToShare.csv"
 ```
 
+## Download Food Insecurity Rate data for 2020
+```{r}
+FS2020_data<- FS20_url %>%
+  rename(Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year., Food_Insecurity_Rate = Overall.Food.Insecurity.Rate..1.Year., County = County..State)
+
+FS2020 <- subset(FS20_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
+```
+
+# U.S. Food Insecurity Choropleth Map
+```{r}
+USA <- counties(cb = TRUE)
+
+USA_filter = USA %>% 
+  mutate(FIPS = as.integer(GEOID)) %>%
+  filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
+
+
+US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
+  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+
+my_breaks <- c(0, 10, 20, 30)
+
+ggplot() +
+  geom_sf(data = US_map, color="transparent", size=0, aes(fill=Food_Insecurity_Rate2)) +
+  labs(title = "Food Insecurity Rates in the U.S. (by County)") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_gradientn(colours=rev(magma(6)),
+                         name="Food_Insecurity_Rate",
+                         na.value = "grey100",
+                        breaks = my_breaks, labels = my_breaks)
+
+```
 
 ## Clean all Required Data
 ```{r}
