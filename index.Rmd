@@ -35,81 +35,86 @@ library(kableExtra)
 library(knitr)
 library(dplyr)
 library(vctrs)
-
+library(tigris)
+library(plotly)
+library(maps)
+library(tidycensus)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
 
 ## Download Required Data
 ```{r}
-
 com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv"
-
 senior_FS20_demog_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/State_of_Senior_Housing_Datasets%20(1)/State%20of%20Senior%20Hunger%20in%202020%20Demographic.csv"
-
-FS20_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2022_2020-2019Data_ToShare.csv"
-
+FS20_url<- read.csv("https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2022_2020-2019Data_ToShare.csv")
 FS19_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2021_2019Data_ToShare.csv"
-
 FS18_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2020_2018Data_ToShare.csv"
-
 FS17_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2019_2017Data_ToShare.csv"
-
 FS16_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2018_2016Data_ToShare.csv"
-
 FS15_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2017_2015Data_ToShare.csv"
-
 FS14_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2016_2014Data_ToShare.csv"
-
 FS13_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2015_2013Data_ToShare.csv"
-
 FS12_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2014_2012Data_ToShare.csv"
-
 FS11_url<- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2013_2011Data_ToShare.csv"
-
 FS10_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2012_2010Data_ToShare.csv"
-
 FS09_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2011_2009Data_ToShare.csv"
 ```
 
+## Download Food Insecurity Rate data for 2020
+```{r}
+FS2020_data<- FS20_url %>%
+  rename(Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year., Food_Insecurity_Rate = Overall.Food.Insecurity.Rate..1.Year., County = County..State)
+FS2020 <- subset(FS20_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
+```
+
+# U.S. Food Insecurity Choropleth Map
+```{r}
+USA <- counties(cb = TRUE)
+USA_filter = USA %>% 
+  mutate(FIPS = as.integer(GEOID)) %>%
+  filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
+US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
+  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+my_breaks <- c(0, 10, 20, 30)
+ggplot() +
+  geom_sf(data = US_map, color="transparent", size=0, aes(fill=Food_Insecurity_Rate2)) +
+  labs(title = "Food Insecurity Rates in the U.S. (by County)") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_gradientn(colours=rev(magma(6)),
+                         name="Food_Insecurity_Rate",
+                         na.value = "grey100",
+                        breaks = my_breaks, labels = my_breaks)
+```
 
 ## Clean all Required Data
 ```{r}
 com_data<- read.csv(com_url)
-
 senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecuirty demographic data for 2020 from Feeding America
-
-FS20_data<- read.csv(FS20_url)%>%
+FS20_data<- FS20_url%>%
 filter(County..State=="Erie County, New York", Year != "2019")%>%
   mutate(FIPS = as.character(FIPS))
   
 FS19_data<- read.csv(FS19_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS18_data<- read.csv(FS18_url)%>%
   filter(X.1=="Erie County, New York")
-
 FS17_data<- read.csv(FS17_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS16_data<- read.csv(FS16_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS15_data<- read.csv(FS15_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS14_data<- read.csv(FS14_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS13_data<- read.csv(FS13_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
-
 FS12_data<- read.csv(FS12_url)%>%
   filter(County..State=="Erie County, New York")%>%
   mutate(FIPS = as.character(FIPS))
@@ -117,16 +122,12 @@ FS12_data<- read.csv(FS12_url)%>%
  FS11_data<- read.csv(FS11_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS))
-
  FS10_data<- read.csv(FS10_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS))
-
 FS09_data<- read.csv(FS09_url)%>%
   filter(County..Code=="ERIE", State..Name=="NY")%>%
   mutate(County..Code = as.character(County..code))
-
-
 ```
 
 ## Change Columns to match eachother
@@ -149,7 +150,6 @@ names(FS20_data)[15]<- "X_FI_Btwn_Thresholds"
 names(FS20_data)[16]<- "X_FI_High_Threshold"
 names(FS20_data)[17]<- "Child_Food_Insecurity_Rate_1_Year"
 names(FS20_data)[18]<- "X_Food_Insecure_Children_1_Year"
-
 names(FS19_data)[1]<- "FIPS"
 names(FS19_data)[2]<- "State"
 names(FS19_data)[3]<- "County"
@@ -168,7 +168,6 @@ names(FS19_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS19_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS19_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS19_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS18_data)[1]<- "FIPS"
 names(FS18_data)[2]<- "State"
 names(FS18_data)[3]<- "County"
@@ -187,7 +186,6 @@ names(FS18_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS18_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS18_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS18_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS17_data)[1]<- "FIPS"
 names(FS17_data)[2]<- "State"
 names(FS17_data)[3]<- "County"
@@ -206,7 +204,6 @@ names(FS17_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS17_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS17_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS17_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS16_data)[1]<- "FIPS"
 names(FS16_data)[2]<- "State"
 names(FS16_data)[3]<- "County"
@@ -225,7 +222,6 @@ names(FS16_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS16_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS16_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS16_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS15_data)[1]<- "FIPS"
 names(FS15_data)[2]<- "State"
 names(FS15_data)[3]<- "County"
@@ -245,7 +241,6 @@ names(FS15_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FP
 names(FS15_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS15_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
 names(FS15_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
-
 names(FS14_data)[1]<- "FIPS"
 names(FS14_data)[2]<- "State"
 names(FS14_data)[3]<- "County"
@@ -264,7 +259,6 @@ names(FS14_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS14_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS14_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS14_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS13_data)[1]<- "FIPS"
 names(FS13_data)[2]<- "State"
 names(FS13_data)[3]<- "County"
@@ -283,7 +277,6 @@ names(FS13_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS13_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS13_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS13_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS12_data)[1]<- "FIPS"
 names(FS12_data)[2]<- "State"
 names(FS12_data)[3]<- "County"
@@ -302,7 +295,6 @@ names(FS12_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS12_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS12_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS12_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS11_data)[1]<- "FIPS"
 names(FS11_data)[2]<- "State"
 names(FS11_data)[3]<- "County"
@@ -321,7 +313,6 @@ names(FS11_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS11_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS11_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS11_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS10_data)[1]<- "FIPS"
 names(FS10_data)[2]<- "State"
 names(FS10_data)[3]<- "County"
@@ -340,7 +331,6 @@ names(FS10_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FP
 names(FS10_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
 names(FS10_data)[17]<- "Cost_Per_Meal_1_Year"
 names(FS10_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-
 names(FS09_data)[1]<- "State"
 names(FS09_data)[2]<- "County"
 names(FS09_data)[3]<- "FIPS"
@@ -364,10 +354,6 @@ names(FS09_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
 ## Join Food Insecurity Datasets
 ```{r}
 bind_all<- bind_rows(FS20_data, FS19_data, FS18_data, FS17_data, FS16_data, FS15_data, FS14_data, FS13_data, FS12_data, FS11_data, FS10_data, FS09_data)
-
-
-
-
 ```
 
 # Results
@@ -384,11 +370,8 @@ leaflet(options =
   addProviderTiles(provider = "Esri")%>%
   addMarkers(lng = com_data$long, lat = com_data$lat, popup = ~paste0(Name, "<br/>", Type, "<br/>", Address, "<br/>", Start.Year))%>%
   setView(lat=42.94991, lng=-78.89927, zoom=11)
-
   
   
-
-
 ```
 
 
@@ -397,8 +380,6 @@ Currently working on merging the data frames so that I can have all years of foo
 ```{r}
 #ggplot(final_join, aes(Year, Food_Insecurity))+
   #geom_point()
-
-
 ```
 
 
