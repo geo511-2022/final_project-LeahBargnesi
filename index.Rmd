@@ -2,7 +2,6 @@
 title: "Prevalence of Community Gardens and Fridges in Areas of Food Insecurity in Buffalo, NY"
 authors: Leah Bargnesi and Candice Kasahara
 output:
-  HTML
   github_document
 ---
 
