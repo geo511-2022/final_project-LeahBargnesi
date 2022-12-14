@@ -124,7 +124,7 @@ After examining the food insecurity choropleth map above, we wanted to look at w
 
 ## Poverty Percent Data for 2020
 ```{r}
-US_poverty <- read.csv("poverty.csv", skip = 5) [-1,] %>%
+US_poverty <- read.csv("Poverty.csv", skip = 5) [-1] %>%
   mutate(FIPS = paste0(
     sprintf("%02d",State.FIPS.Code),
     sprintf("%03d",County.FIPS.Code)),
