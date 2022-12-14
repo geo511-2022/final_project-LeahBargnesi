@@ -123,19 +123,19 @@ Based on the choropleth map above, we see that most counties in the United State
 After examining the food insecurity choropleth map above, we wanted to look at what some of the drivers of food insecurity to see which neighborhoods urban agriculture and community fridges should benefit or be implemented within. One driver we predict to correlate with food insecurity is the percent of those below the poverty line. According to the [ASPE](https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/prior-hhs-poverty-guidelines-federal-register-references/2020-poverty-guidelines), the national 2020 poverty guideline was on average 12,760 dollars for one person in a household and 44,120 dollars for up to eight in one household. While the poverty guideline does vary per state, for this study, these averages will represent the entirety of the U.S. The data is from the United States Census, [SAIPE State and County Estimates for 2020](https://www.census.gov/data/datasets/2020/demo/saipe/2020-state-and-county.html).
 
 ## Poverty Percent Data for 2020
-```{r}
-US_poverty <- read.csv("Poverty.csv", skip = 5) [-1] %>%
-  mutate(FIPS = paste0(
-    sprintf("%02d",State.FIPS.Code),
-    sprintf("%03d",County.FIPS.Code)),
-    Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
-```
+#```{r}
+#US_poverty <- read.csv("Poverty.csv", skip = 5) [-1] %>%
+ # mutate(FIPS = paste0(
+  #  sprintf("%02d",State.FIPS.Code),
+   # sprintf("%03d",County.FIPS.Code)),
+   # Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
+#```
 
 ## U.S. Poverty Percent Choropleth Map 2020
-```{r}
+#```{r}
 
-USA_filtered = USA %>% 
-  mutate(FIPS = as.character(GEOID)) %>%
+#USA_filtered = USA %>% 
+  #mutate(FIPS = as.character(GEOID)) %>%
   filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
 
 Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
@@ -163,7 +163,7 @@ ggplot() +
                          na.value = "grey100",
                         breaks = my_breaks, labels = my_breaks)
 
-```
+#```
 
 In this choropleth map, we see a similar trend as the food insecurity choropleth map. Overall, the poverty percent ranges from 5-20%. However, like the food insecurity map, some South Dakota counties appear to face a noticeably higher poverty rate, with over 30%, than other parts of the country. Similarly, the southern section of the U.S. shows between 20-30% poverty rate. Overall, we can see that there is high degree of correlation between poverty rate and percent of food insecurity.
 
@@ -172,10 +172,10 @@ In this choropleth map, we see a similar trend as the food insecurity choropleth
 Seeing the visual correlation between the food insecurity and poverty percent choropleth maps, we deemed that it was significant enough to examine through a dot plot. We narrowed down our search to New York State since there are currently multiple initiatives that are combating food scarcity. If there is a noticeable correlation between food insecurity and percent poverty, then this information could be used to further push the implementation and funding for these efforts.
 
 ## Poverty Percent vs Food Insecurity Data
-```{r}
-Poverty <- US_poverty %>%
-  mutate(FIPS = as.integer(FIPS))
-Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
+#```{r}
+#Poverty <- US_poverty %>%
+  #mutate(FIPS = as.integer(FIPS))
+#Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
 
 Overall2 <- Overall_map %>%
   filter(Postal.Code == "NY", Year == "2020") %>%
@@ -192,7 +192,7 @@ Overall3 <- subset(Overall2, select = c(FIPS, Food_Insecurity_Rate2, Poverty_Per
 ```
 
 ## Visualizing Poverty Percent and Food Insecurity Correlation
-```{r}
+#```{r}
 dot_plot <- ggplot(Overall3, aes(x = Poverty_Percent, y = Food_Insecurity_Rate2)) +
   geom_point() +
   geom_smooth() +
