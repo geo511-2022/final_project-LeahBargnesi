@@ -39,6 +39,10 @@ library(tigris)
 library(plotly)
 library(maps)
 library(tidycensus)
+library(viridis)
+library(scales)
+library(data.table)
+library(mapproj)
 knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
@@ -68,7 +72,7 @@ FS2020_data<- FS20_url %>%
 
 
 
-FS2020 <- subset(FS20_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
+FS2020 <- subset(FS2020_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
 ```
 
 # U.S. Food Insecurity Choropleth Map
@@ -107,273 +111,97 @@ ggplot() +
 
 ```
 
+
+
+
+
 ## Clean all Required Data
 ```{r}
 com_data<- read.csv(com_url)
-senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecuirty demographic data for 2020 from Feeding America
+senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecurity demographic data for 2020 from Feeding America
+
 FS20_data<- FS20_url%>%
-filter(County..State=="Erie County, New York", Year != "2019")%>%
-  mutate(FIPS = as.character(FIPS))
+  filter(County..State=="Erie County, New York")%>%
+   mutate(FIPS = as.character(FIPS),Year!=2019,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",Overall.Food.Insecurity.Rate..1.Year.)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
   
 FS19_data<- read.csv(FS19_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2019,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2019.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS18_data<- read.csv(FS18_url)%>%
-  filter(X.1=="Erie County, New York")
+  filter(X.1 =="Erie County, New York")%>%
+   mutate(FIPS = as.character(Data.from.MMG.2020.are.NOT.directly.comparable.to.data.from.any.prior.MMG.study.due.to.methodological.changes.made.in.2020.), Year=2018,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X.2)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS17_data<- read.csv(FS17_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2017,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2017.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS16_data<- read.csv(FS16_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2016,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2016.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS15_data<- read.csv(FS15_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2015,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2015.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS14_data<- read.csv(FS14_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2014,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2014.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS13_data<- read.csv(FS13_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2013,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2013.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 FS12_data<- read.csv(FS12_url)%>%
   filter(County..State=="Erie County, New York")%>%
-  mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2012,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2012.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
  
  FS11_data<- read.csv(FS11_url)%>%
   filter(County..State=="Erie County, New York")%>%
-   mutate(FIPS = as.character(FIPS))
+   mutate(FIPS = as.character(FIPS),Year=2011,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2011.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+ 
+
  FS10_data<- read.csv(FS10_url)%>%
   filter(County..State=="Erie County, New York")%>%
-   mutate(FIPS = as.character(FIPS))
-FS09_data<- read.csv(FS09_url)%>%
-  filter(County..Code=="ERIE", State..Name=="NY")%>%
-  mutate(County..Code = as.character(County..code))
+   mutate(FIPS = as.character(FIPS),Year=2010,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",X2010.Food.Insecurity.Rate)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
+
+ FS09_data<- read.csv(FS09_url)%>%
+  filter(County.Code=="ERIE", State.Name == "NY")%>%
+   mutate(FIPS = as.character(FIPS),Year=2009,Food.Insecurity.Rate = 
+            as.numeric(sub("%","",FI.Rate*100)))%>%
+   select(FIPS,Year,Food.Insecurity.Rate)
+
 ```
 
-## Change Columns to match eachother
-```{r}
-names(FS20_data)[1]<- "FIPS"
-names(FS20_data)[2]<- "State"
-names(FS20_data)[3]<- "County"
-names(FS20_data)[4]<- "Year"
-names(FS20_data)[5]<- "Overall_Food_Insecurity_Rate"
-names(FS20_data)[6]<- "Number_of_Food_Insecure_Persons"
-names(FS20_data)[7]<- "Food_Insecurity_Rate_among_Black_Persons_all_ethnicities"
-names(FS20_data)[8]<- "Food_Insecurity_Rate_among_Hispanic_Persons_any_race"
-names(FS20_data)[9]<- "Food_Insecurity_Rate_among_White_non_Hispanic_Persons"
-names(FS20_data)[10]<- "Low_Threshold_in_state"
-names(FS20_data)[11]<- "Low_Threshold_Type"
-names(FS20_data)[12]<- "High_Threshold_in_State"
-names(FS20_data)[13]<- "High_Threshold_Type"
-names(FS20_data)[14]<- "X_FI_Low_Threshold"
-names(FS20_data)[15]<- "X_FI_Btwn_Thresholds"
-names(FS20_data)[16]<- "X_FI_High_Threshold"
-names(FS20_data)[17]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS20_data)[18]<- "X_Food_Insecure_Children_1_Year"
-names(FS19_data)[1]<- "FIPS"
-names(FS19_data)[2]<- "State"
-names(FS19_data)[3]<- "County"
-names(FS19_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS19_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS19_data)[6]<- "Low_Threshold_in_state"
-names(FS19_data)[7]<- "Low_Threshold_Type"
-names(FS19_data)[8]<- "High_Threshold_in_state"
-names(FS19_data)[9]<- "High_Threshold_Type"
-names(FS19_data)[10]<- "X_FI_Low_Threshold"
-names(FS19_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS19_data)[12]<- "X_FI_High_Threshold"
-names(FS19_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS19_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS19_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS19_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS19_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS19_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS18_data)[1]<- "FIPS"
-names(FS18_data)[2]<- "State"
-names(FS18_data)[3]<- "County"
-names(FS18_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS18_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS18_data)[6]<- "Low_Threshold_in_state"
-names(FS18_data)[7]<- "Low_Threshold_Type"
-names(FS18_data)[8]<- "High_Threshold_in_state"
-names(FS18_data)[9]<- "High_Threshold_Type"
-names(FS18_data)[10]<- "X_FI_Low_Threshold"
-names(FS18_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS18_data)[12]<- "X_FI_High_Threshold"
-names(FS18_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS18_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS18_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS18_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS18_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS18_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS17_data)[1]<- "FIPS"
-names(FS17_data)[2]<- "State"
-names(FS17_data)[3]<- "County"
-names(FS17_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS17_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS17_data)[6]<- "Low_Threshold_in_state"
-names(FS17_data)[7]<- "Low_Threshold_Type"
-names(FS17_data)[8]<- "High_Threshold_in_state"
-names(FS17_data)[9]<- "High_Threshold_Type"
-names(FS17_data)[10]<- "X_FI_Low_Threshold"
-names(FS17_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS17_data)[12]<- "X_FI_High_Threshold"
-names(FS17_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS17_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS17_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS17_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS17_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS17_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS16_data)[1]<- "FIPS"
-names(FS16_data)[2]<- "State"
-names(FS16_data)[3]<- "County"
-names(FS16_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS16_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS16_data)[6]<- "Low_Threshold_in_state"
-names(FS16_data)[7]<- "Low_Threshold_Type"
-names(FS16_data)[8]<- "High_Threshold_in_state"
-names(FS16_data)[9]<- "High_Threshold_Type"
-names(FS16_data)[10]<- "X_FI_Low_Threshold"
-names(FS16_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS16_data)[12]<- "X_FI_High_Threshold"
-names(FS16_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS16_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS16_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS16_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS16_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS16_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS15_data)[1]<- "FIPS"
-names(FS15_data)[2]<- "State"
-names(FS15_data)[3]<- "County"
-names(FS15_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS15_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS15_data)[6]<- "Low_Threshold_in_state"
-names(FS15_data)[7]<- "Low_Threshold_Type"
-names(FS15_data)[8]<- "High_Threshold_in_state"
-names(FS15_data)[9]<- "High_Threshold_Type"
-names(FS15_data)[10]<- "X_FI_Low_Threshold"
-names(FS15_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS15_data)[12]<- "X_FI_High_Threshold"
-names(FS15_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS15_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS15_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS15_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS15_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS15_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS15_data)[18]<- "Weighted.Annual.Food.Budget.Shortfall"
-names(FS14_data)[1]<- "FIPS"
-names(FS14_data)[2]<- "State"
-names(FS14_data)[3]<- "County"
-names(FS14_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS14_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS14_data)[6]<- "Low_Threshold_in_state"
-names(FS14_data)[7]<- "Low_Threshold_Type"
-names(FS14_data)[8]<- "High_Threshold_in_state"
-names(FS14_data)[9]<- "High_Threshold_Type"
-names(FS14_data)[10]<- "X_FI_Low_Threshold"
-names(FS14_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS14_data)[12]<- "X_FI_High_Threshold"
-names(FS14_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS14_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS14_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS14_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS14_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS14_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS13_data)[1]<- "FIPS"
-names(FS13_data)[2]<- "State"
-names(FS13_data)[3]<- "County"
-names(FS13_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS13_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS13_data)[6]<- "Low_Threshold_in_state"
-names(FS13_data)[7]<- "Low_Threshold_Type"
-names(FS13_data)[8]<- "High_Threshold_in_state"
-names(FS13_data)[9]<- "High_Threshold_Type"
-names(FS13_data)[10]<- "X_FI_Low_Threshold"
-names(FS13_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS13_data)[12]<- "X_FI_High_Threshold"
-names(FS13_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS13_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS13_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS13_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS13_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS13_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS12_data)[1]<- "FIPS"
-names(FS12_data)[2]<- "State"
-names(FS12_data)[3]<- "County"
-names(FS12_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS12_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS12_data)[6]<- "Low_Threshold_in_state"
-names(FS12_data)[7]<- "Low_Threshold_Type"
-names(FS12_data)[8]<- "High_Threshold_in_state"
-names(FS12_data)[9]<- "High_Threshold_Type"
-names(FS12_data)[10]<- "X_FI_Low_Threshold"
-names(FS12_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS12_data)[12]<- "X_FI_High_Threshold"
-names(FS12_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS12_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS12_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS12_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS12_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS12_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS11_data)[1]<- "FIPS"
-names(FS11_data)[2]<- "State"
-names(FS11_data)[3]<- "County"
-names(FS11_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS11_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS11_data)[6]<- "Low_Threshold_in_state"
-names(FS11_data)[7]<- "Low_Threshold_Type"
-names(FS11_data)[8]<- "High_Threshold_in_state"
-names(FS11_data)[9]<- "High_Threshold_Type"
-names(FS11_data)[10]<- "X_FI_Low_Threshold"
-names(FS11_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS11_data)[12]<- "X_FI_High_Threshold"
-names(FS11_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS11_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS11_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS11_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS11_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS11_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS10_data)[1]<- "FIPS"
-names(FS10_data)[2]<- "State"
-names(FS10_data)[3]<- "County"
-names(FS10_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS10_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS10_data)[6]<- "Low_Threshold_in_state"
-names(FS10_data)[7]<- "Low_Threshold_Type"
-names(FS10_data)[8]<- "High_Threshold_in_state"
-names(FS10_data)[9]<- "High_Threshold_Type"
-names(FS10_data)[10]<- "X_FI_Low_Threshold"
-names(FS10_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS10_data)[12]<- "X_FI_High_Threshold"
-names(FS10_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS10_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS10_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS10_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS10_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS10_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-names(FS09_data)[1]<- "State"
-names(FS09_data)[2]<- "County"
-names(FS09_data)[3]<- "FIPS"
-names(FS09_data)[4]<- "Overall_Food_Insecurity_Rate"
-names(FS09_data)[5]<- "Number_of_Food_Insecure_Persons"
-names(FS09_data)[6]<- "Low_Threshold_in_state"
-names(FS09_data)[7]<- "Low_Threshold_Type"
-names(FS09_data)[8]<- "High_Threshold_in_state"
-names(FS09_data)[9]<- "High_Threshold_Type"
-names(FS09_data)[10]<- "X_FI_Low_Threshold"
-names(FS09_data)[11]<- "X_FI_Btwn_Thresholds"
-names(FS09_data)[12]<- "X_FI_High_Threshold"
-names(FS09_data)[13]<- "Child_Food_Insecurity_Rate_1_Year"
-names(FS09_data)[14]<- "X_of_Food_Insecure_Children_1_Year"
-names(FS09_data)[15]<- "X_food_insecure_children_in_HH_w_HH_incomes_below_185_FPL"
-names(FS09_data)[16]<- "X_food_insecure_children_in_HH_w_HH_incomes_above_185_FPL"
-names(FS09_data)[17]<- "Cost_Per_Meal_1_Year"
-names(FS09_data)[18]<- "Weighted_Annual_Food_Budget_Shortfall"
-```
+
 
 ## Join Food Insecurity Datasets
 ```{r}
 bind_all<- bind_rows(FS20_data, FS19_data, FS18_data, FS17_data, FS16_data, FS15_data, FS14_data, FS13_data, FS12_data, FS11_data, FS10_data, FS09_data)
+bind_all[is.na(bind_all) | bind_all=="Inf"] = NA
 ```
 
 # Results
@@ -384,7 +212,6 @@ bind_all<- bind_rows(FS20_data, FS19_data, FS18_data, FS17_data, FS16_data, FS15
 
 ```{r}
 com_data%>%
-  drop_na()%>%
 leaflet(options = 
         leafletOptions(minZoom = 5, dragging = TRUE))%>%
   addProviderTiles(provider = "Esri")%>%
@@ -396,16 +223,51 @@ leaflet(options =
 
 
 ## Plot of Food insecurity over time
-Currently working on merging the data frames so that I can have all years of food security on one map.
 ```{r}
-#ggplot(final_join, aes(Year, Food_Insecurity))+
-  #geom_point()
+ggplot(bind_all, aes(Year, Food.Insecurity.Rate))+
+  geom_point()+
+  xlab("Year")+
+  ylab("Rate of Food Insecurity")+
+  ggtitle(label = "Rate of Food Insecurity from 2009-2020 for Erie County, New York")
+  lm(formula = Food.Insecurity.Rate~Year, data= bind_all)
 ```
 
 
 
-## Food Insecurity and Food Provisioning Over Time
-Will have an interactive map with food insecurity and community efforts on same map.
+## Table of Food Insecurity and Food Provisioning Over Time
+```{r}
+
+kable(com_data)%>%# table of all gardens and fridges
+kable_classic("striped", full_width = F)
+
+#Table of gardens/fridges with start year after 2008 and food insecurity rate
+gardens_w_year<- com_data%>%
+  filter(Start.Year!="NA", Start.Year>2008)%>%
+  mutate(Year = Start.Year)
+
+table1<- merge(gardens_w_year, bind_all)
+
+final_table <- table1[1:43, ]
+final_table[9] <- cell_spec(final_table[[9]], color = "white", bold = T,
+    background = spec_color(1:43, end = 0.9, option = "D", direction = 1, ))
+kbl(final_table, escape = F, align = "c") %>%
+  kable_classic("striped", full_width = F)
+
+
+```
+# Map of both food insecurity and gardens per year
+```{r}
+data(table1)
+
+  # draw map
+  map1<- map("county", region = "new york,erie")
+  
+  
+ 
+
+
+```
+
 
 # Conclusions
 
@@ -416,10 +278,10 @@ Clear summary adequately describing the results and putting them in context. Dis
 
 # Sources
 
-Hess, D., & Winner, L. (2007). Enhancing Justice and Sustainability at the Local Level: Affordable Policies for Urban Governments*. Local Environment, 12(4), 379–395. https://doi.org/10.1080/13549830701412489
+Hess, D., & Winner, L. 2007. Enhancing Justice and Sustainability at the Local Level: Affordable Policies for Urban Governments*. Local Environment, 12(4), 379–395. https://doi.org/10.1080/13549830701412489
 
-Overall (all ages) Hunger & Poverty in the United States | Map the Meal Gap. (n.d.). Retrieved October 11, 2022, from https://map.feedingamerica.org
+Overall (all ages) Hunger & Poverty in the United States | Map the Meal Gap. 2022. Retrieved October 11, 2022, from https://map.feedingamerica.org
 
-Silva, C. (2020, September 27). Food Insecurity In The U.S. By The Numbers. NPR. https://www.npr.org/2020/09/27/912486921/food-insecurity-in-the-u-s-by-the-numbers
+Silva, C. 2020, September 27. Food Insecurity In The U.S. By The Numbers. NPR. https://www.npr.org/2020/09/27/912486921/food-insecurity-in-the-u-s-by-the-numbers
 
 Story Map Series. 2022 . https://suny-buffalo.maps.arcgis.com/apps/MapSeries/index.html?appid=7a3b2029ff374ac282a90573776ebffe.
