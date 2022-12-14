@@ -68,19 +68,13 @@ FS09_url<-"https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargn
 
 # U.S. Food Insecurity Map
 
-To understand the degree of necessity for the implementation of urban agriculture and community fridges, we want to look at an overall map of the most recent food insecurity rates within the United States. With the information provided by this data, we want to compare it to poverty rates in the U.S. to determine whether they are significantly correlated. 
+To understand the degree of necessity for the implementation of urban agriculture and community fridges, we want to look at an overall map of the most recent food insecurity rates within the United States. With the information provided by this data, we want to compare it to poverty rates in the U.S. to determine whether they are significantly correlated. The data is from [Feeding America](https://www.feedingamerica.org/research/map-the-meal-gap/by-county).
 
 ## Food Insecurity Rate data for 2020
 ```{r}
 FS20_url<- read.csv("https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2022_2020-2019Data_ToShare.csv")
-
 FS2020_data<- FS20_url %>%
   rename(Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year., Food_Insecurity_Rate = Overall.Food.Insecurity.Rate..1.Year., County = County..State)
-
-FS2020_data<- FS20_url %>%
-  rename(Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year., Food_Insecurity_Rate = Overall.Food.Insecurity.Rate..1.Year., County = County..State)
-
-
 FS2020 <- subset(FS2020_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
 ```
 
@@ -90,18 +84,9 @@ USA <- counties(cb = TRUE)
 USA_filter = USA %>% 
   mutate(FIPS = as.integer(GEOID)) %>%
   filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
-
 US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
 my_breaks <- c(0, 10, 20, 30)
-
-
-
-US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
-  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-
-my_breaks <- c(0, 10, 20, 30)
-
 ggplot() +
   geom_sf(data = US_map, color="transparent", size=0, aes(fill=Food_Insecurity_Rate2)) +
   labs(title = "Food Insecurity Rates in the U.S. (by County) in 2020", 
@@ -120,27 +105,9 @@ ggplot() +
 
 Based on the choropleth map above, we see that most counties in the United States are experiencing food insecurity between 10-20%. There are some exceptions below 10%, especially in North Dakota. More noticeably, there are a significant number of counties that are facing food insecurity rates beyond 20%, most noticeably in South Dakota and spread throughout the southern portion of the U.S. As seen in the graph, food insecurity clearly threatens a significant portion of the U.S., which opens up the field of urban agriculture and community fridges to decrease some of the food insecurity being experienced.
 
-
-
-## Poverty Percent Data for 2020
-```{r}
-US_poverty <- read.csv("poverty.csv", skip = 5) [-1,] %>%
-  mutate(FIPS = paste0(
-    sprintf("%02d",State.FIPS.Code),
-    sprintf("%03d",County.FIPS.Code)),
-    Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
-```
-
-## U.S. Poverty Percent Choropleth Map 2020
-```{r}
-
-USA_filtered = USA %>% 
-  mutate(FIPS = as.character(GEOID)) %>%
-  filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
-```
 # U.S. Poverty Line Map
 
-After examining the food insecurity choropleth map above, we wanted to look at what some of the drivers of food insecurity to see which neighborhoods urban agriculture and community fridges should benefit or be implemented within. One driver we predict to correlate with food insecurity is the percent of those below the poverty line. According to the ASPE, the national 2020 poverty guideline was on average 12,760 dollars for one person in a household and 44,120 dollars for up to eight in one household. While the poverty guideline does vary per state, for this study, these averages will represent the entirety of the U.S.
+After examining the food insecurity choropleth map above, we wanted to look at what some of the drivers of food insecurity to see which neighborhoods urban agriculture and community fridges should benefit or be implemented within. One driver we predict to correlate with food insecurity is the percent of those below the poverty line. According to the [ASPE](https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/prior-hhs-poverty-guidelines-federal-register-references/2020-poverty-guidelines), the national 2020 poverty guideline was on average 12,760 dollars for one person in a household and 44,120 dollars for up to eight in one household. While the poverty guideline does vary per state, for this study, these averages will represent the entirety of the U.S. The data is from the United States Census, [SAIPE State and County Estimates for 2020](https://www.census.gov/data/datasets/2020/demo/saipe/2020-state-and-county.html).
 
 ## Poverty Percent Data for 2020
 ```{r}
@@ -158,11 +125,6 @@ USA_filtered = USA %>%
   filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
 Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
 my_breaks <- c(0, 10, 20, 30)
-
-Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
-
-my_breaks <- c(0, 10, 20, 30)
-
 ggplot() +
   geom_sf(data = Poverty_map, color="transparent", size=0, aes(fill=Poverty_Percent)) +
   labs(title = "Poverty Rates in the U.S. (by County) in 2020", 
@@ -177,8 +139,6 @@ ggplot() +
                          name="Poverty Rate",
                          na.value = "grey100",
                         breaks = my_breaks, labels = my_breaks)
-
-
 ```
 
 In this choropleth map, we see a similar trend as the food insecurity choropleth map. Overall, the poverty percent ranges from 5-20%. However, like the food insecurity map, some South Dakota counties appear to face a noticeably higher poverty rate, with over 30%, than other parts of the country. Similarly, the southern section of the U.S. shows between 20-30% poverty rate. Overall, we can see that there is high degree of correlation between poverty rate and percent of food insecurity.
@@ -191,19 +151,10 @@ Seeing the visual correlation between the food insecurity and poverty percent ch
 ```{r}
 Poverty <- US_poverty %>%
   mutate(FIPS = as.integer(FIPS))
-
 Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
 Overall2 <- Overall_map %>%
   filter(Postal.Code == "NY", Year == "2020") %>%
    mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-
-
-Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
-
-Overall2 <- Overall_map %>%
-  filter(Postal.Code == "NY", Year == "2020") %>%
-   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-
 # Separating values needed for graphing
 Overall3 <- subset(Overall2, select = c(FIPS, Food_Insecurity_Rate2, Poverty_Percent))
 ```
@@ -216,7 +167,6 @@ dot_plot <- ggplot(Overall3, aes(x = Poverty_Percent, y = Food_Insecurity_Rate2)
   labs(title = "Poverty Percent vs. Food Insecurity in NYS Counties (2020)", x = "Poverty Percent", y = "Food Insecurity Rate") +
   theme_minimal(13) +
   theme(plot.title = element_text(hjust = 0.5))
-
 dot_plot
 ```
 
@@ -228,65 +178,55 @@ In this dot plot, we see a clear correlation between poverty percent and food in
 
 ```{r}
 com_data<- read.csv(com_url) #list of known community gardens/fridges, information on start year is known for some community gardens but not all.
-
 #Data is filtered for Erie County New York and column names are changed for each year's data to match each other. Columns are also changed to character or numeric to match other year's data.
-
 #2020 Food Insecurity for Erie County
 FS20_data<- FS20_url%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year!=2019,Food.Insecurity.Rate = 
             as.numeric(sub("%","",Overall.Food.Insecurity.Rate..1.Year.)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2019 Food Insecurity for Erie County  
 FS19_data<- read.csv(FS19_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2019,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2019.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2018 Food Insecurity for Erie County
 FS18_data<- read.csv(FS18_url)%>%
   filter(X.1 =="Erie County, New York")%>%
    mutate(FIPS = as.character(Data.from.MMG.2020.are.NOT.directly.comparable.to.data.from.any.prior.MMG.study.due.to.methodological.changes.made.in.2020.), Year=2018,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X.2)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2017 Food Insecurity for Erie County
 FS17_data<- read.csv(FS17_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2017,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2017.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2016 Food Insecurity for Erie County
 FS16_data<- read.csv(FS16_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2016,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2016.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2015 Food Insecurity for Erie County
 FS15_data<- read.csv(FS15_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2015,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2015.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2014 Food Insecurity for Erie County
 FS14_data<- read.csv(FS14_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2014,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2014.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2013 Food Insecurity for Erie County
 FS13_data<- read.csv(FS13_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2013,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2013.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-
 #2012 Food Insecurity for Erie County
 FS12_data<- read.csv(FS12_url)%>%
   filter(County..State=="Erie County, New York")%>%
@@ -357,7 +297,6 @@ Two tables were made, so that you can easily view the amount of community garden
 ```{r}
 kable(com_data)%>% # table of all gardens and fridges
 kable_classic("striped", full_width = F)
-
 #Table of gardens/fridges with start year after 2008 and food insecurity rate
 gardens_w_year<- com_data%>%
   filter(Start.Year!="NA", Start.Year>2008)%>%
