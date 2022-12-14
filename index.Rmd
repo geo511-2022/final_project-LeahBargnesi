@@ -75,10 +75,7 @@ To understand the degree of necessity for the implementation of urban agricultur
 FS20_url<- read.csv("https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/Map_the_Meal_Gap_Data%20(1)/MMG2022_2020-2019Data_ToShare.csv")
 FS2020_data<- FS20_url %>%
   rename(Food_Insecurity = X..of.Food.Insecure.Persons.Overall..1.Year., Food_Insecurity_Rate = Overall.Food.Insecurity.Rate..1.Year., County = County..State)
-<<<<<<< HEAD
-=======
 
->>>>>>> 7b6fefdfc5c828c4c12aeeb651fff6e0836ac07f
 FS2020 <- subset(FS2020_data, select = c(State, County, Food_Insecurity_Rate, Food_Insecurity))
 ```
 
@@ -89,19 +86,19 @@ USA <- counties(cb = TRUE)
 USA_filter = USA %>% 
   mutate(FIPS = as.integer(GEOID)) %>%
   filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
-<<<<<<< HEAD
-US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
-  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-my_breaks <- c(0, 10, 20, 30)
-=======
-
 
 US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+my_breaks <- c(0, 10, 20, 30)
+
+
+
+US_map = left_join(USA_filter,FS2020_data,by = "FIPS") %>% 
+  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
 
 my_breaks <- c(0, 10, 20, 30)
 
->>>>>>> 7b6fefdfc5c828c4c12aeeb651fff6e0836ac07f
+
 ggplot() +
   geom_sf(data = US_map, color="transparent", size=0, aes(fill=Food_Insecurity_Rate2)) +
   labs(title = "Food Insecurity Rates in the U.S. (by County) in 2020", 
@@ -140,17 +137,17 @@ US_poverty <- read.csv("poverty.csv", skip = 5) [-1,] %>%
 USA_filtered = USA %>% 
   mutate(FIPS = as.character(GEOID)) %>%
   filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
-<<<<<<< HEAD
-Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
-my_breaks <- c(0, 10, 20, 30)
-=======
-
 
 Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
+my_breaks <- c(0, 10, 20, 30)
+
+
+
+Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
 
 my_breaks <- c(0, 10, 20, 30)
 
->>>>>>> 7b6fefdfc5c828c4c12aeeb651fff6e0836ac07f
+
 ggplot() +
   geom_sf(data = Poverty_map, color="transparent", size=0, aes(fill=Poverty_Percent)) +
   labs(title = "Poverty Rates in the U.S. (by County) in 2020", 
@@ -165,10 +162,7 @@ ggplot() +
                          name="Poverty Rate",
                          na.value = "grey100",
                         breaks = my_breaks, labels = my_breaks)
-<<<<<<< HEAD
-=======
 
->>>>>>> 7b6fefdfc5c828c4c12aeeb651fff6e0836ac07f
 ```
 
 In this choropleth map, we see a similar trend as the food insecurity choropleth map. Overall, the poverty percent ranges from 5-20%. However, like the food insecurity map, some South Dakota counties appear to face a noticeably higher poverty rate, with over 30%, than other parts of the country. Similarly, the southern section of the U.S. shows between 20-30% poverty rate. Overall, we can see that there is high degree of correlation between poverty rate and percent of food insecurity.
@@ -182,17 +176,17 @@ Seeing the visual correlation between the food insecurity and poverty percent ch
 Poverty <- US_poverty %>%
   mutate(FIPS = as.integer(FIPS))
 Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
-<<<<<<< HEAD
-Overall2 <- Overall_map %>%
-  filter(Postal.Code == "NY", Year == "2020") %>%
-   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-=======
 
 Overall2 <- Overall_map %>%
   filter(Postal.Code == "NY", Year == "2020") %>%
    mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
 
->>>>>>> 7b6fefdfc5c828c4c12aeeb651fff6e0836ac07f
+
+Overall2 <- Overall_map %>%
+  filter(Postal.Code == "NY", Year == "2020") %>%
+   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+
+
 # Separating values needed for graphing
 Overall3 <- subset(Overall2, select = c(FIPS, Food_Insecurity_Rate2, Poverty_Percent))
 ```
