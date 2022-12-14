@@ -16,7 +16,7 @@ How has access to community gardens and fridges improved food security in Buffal
 
 # Materials and Methods
 
-The goal of this website is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and what year they were put in place. The data sets will be filtered out for Buffalo, NY and surrounding areas. The leaflet package will be utilized to make interactive maps. Data for food insecurity was requested and gathered from Feeding America, and locations of community gardens were requested and gathered from the University at Buffalo's Food Lab. Demographic data will also eventually be used and the package tidy census may be helpful for this.
+The goal of this website is to  make a map that highlights food security from 2009 to 2020 with points on the map where each garden and fridge is, and what year they were put in place. The data sets will be filtered out for Buffalo, NY and surrounding areas. The leaflet package will be utilized to make an interactive map of community garden locations. Data for food insecurity was requested and gathered from Feeding America, and locations of community gardens were requested and gathered from the University at Buffalo's Food Lab. First, food insecurity rates will be analyzed nationwide. Then food insecurity rates for Buffalo and the surrounding region will be examined for 2009-2020 to highlight the importance of community food provisioning.
 
 # Results
 
@@ -48,7 +48,7 @@ knitr::opts_chunk$set(cache=TRUE)  # cache the results for quick compiling
 ```
 
 
-## Download Required Data
+## Download Required Data For Food Insecurity and Community Gardens
 ```{r}
 com_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/excel.csv"
 senior_FS20_demog_url <- "https://raw.githubusercontent.com/geo511-2022/final_project-LeahBargnesi/master/data/State_of_Senior_Housing_Datasets%20(1)/State%20of%20Senior%20Hunger%20in%202020%20Demographic.csv"
@@ -221,70 +221,94 @@ dot_plot
 ```
 
 In this dot plot, we see a clear correlation between poverty percent and food insecurity. As the poverty percent increases, food insecurity increases linearly as well. With this visualization, it is clear that efforts to reduce food insecurity could aid those who do not surpass the poverty line in New York State.
+ 
+# Food Insecurity for Buffalo, New York and Food Provisioning Implementations
 
+## Clean all Required Data for Food Insecurity for Erie County, New York
 
-## Clean all Required Data
 ```{r}
-com_data<- read.csv(com_url)
-senior_FS20_demog_data<- read.csv(senior_FS20_demog_url) #This is senior food insecurity demographic data for 2020 from Feeding America
+com_data<- read.csv(com_url) #list of known community gardens/fridges, information on start year is known for some community gardens but not all.
+
+#Data is filtered for Erie County New York and column names are changed for each year's data to match each other. Columns are also changed to character or numeric to match other year's data.
+
+#2020 Food Insecurity for Erie County
 FS20_data<- FS20_url%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year!=2019,Food.Insecurity.Rate = 
             as.numeric(sub("%","",Overall.Food.Insecurity.Rate..1.Year.)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
-  
+
+#2019 Food Insecurity for Erie County  
 FS19_data<- read.csv(FS19_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2019,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2019.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2018 Food Insecurity for Erie County
 FS18_data<- read.csv(FS18_url)%>%
   filter(X.1 =="Erie County, New York")%>%
    mutate(FIPS = as.character(Data.from.MMG.2020.are.NOT.directly.comparable.to.data.from.any.prior.MMG.study.due.to.methodological.changes.made.in.2020.), Year=2018,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X.2)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2017 Food Insecurity for Erie County
 FS17_data<- read.csv(FS17_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2017,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2017.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2016 Food Insecurity for Erie County
 FS16_data<- read.csv(FS16_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2016,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2016.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2015 Food Insecurity for Erie County
 FS15_data<- read.csv(FS15_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2015,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2015.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2014 Food Insecurity for Erie County
 FS14_data<- read.csv(FS14_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2014,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2014.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2013 Food Insecurity for Erie County
 FS13_data<- read.csv(FS13_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2013,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2013.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+
+#2012 Food Insecurity for Erie County
 FS12_data<- read.csv(FS12_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2012,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2012.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
  
+#2011 Food Insecurity for Erie County
  FS11_data<- read.csv(FS11_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2011,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2011.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
  
+ #2010 Food Insecurity for Erie County
  FS10_data<- read.csv(FS10_url)%>%
   filter(County..State=="Erie County, New York")%>%
    mutate(FIPS = as.character(FIPS),Year=2010,Food.Insecurity.Rate = 
             as.numeric(sub("%","",X2010.Food.Insecurity.Rate)))%>%
    select(FIPS,Year,Food.Insecurity.Rate)
+ 
+ #2009 Food Insecurity for Erie County
  FS09_data<- read.csv(FS09_url)%>%
   filter(County.Code=="ERIE", State.Name == "NY")%>%
    mutate(FIPS = as.character(FIPS),Year=2009,Food.Insecurity.Rate = 
@@ -293,19 +317,16 @@ FS12_data<- read.csv(FS12_url)%>%
 ```
 
 
-
 ## Join Food Insecurity Datasets
+Food Insecurity data for all years (2009-2020) are joined together in one data frame.
 ```{r}
 bind_all<- bind_rows(FS20_data, FS19_data, FS18_data, FS17_data, FS16_data, FS15_data, FS14_data, FS13_data, FS12_data, FS11_data, FS10_data, FS09_data)
 bind_all[is.na(bind_all) | bind_all=="Inf"] = NA
 ```
 
-# Results
 
-
-
-## Urban farm and fridges locations
-
+## Interactive map of Urban Farm and Fridges Locations
+Markers for Erie County New York represent all known community gardens, urban farms,or fridges. Markers can be clicked on to view name, address, type of food provisioning, and start year if known.
 ```{r}
 com_data%>%
 leaflet(options = 
@@ -319,6 +340,7 @@ leaflet(options =
 
 
 ## Plot of Food insecurity over time
+This graph depicts how food insecurity has changed from 2009-2020.
 ```{r}
 ggplot(bind_all, aes(Year, Food.Insecurity.Rate))+
   geom_point()+
@@ -327,13 +349,15 @@ ggplot(bind_all, aes(Year, Food.Insecurity.Rate))+
   ggtitle(label = "Rate of Food Insecurity from 2009-2020 for Erie County, New York")
   lm(formula = Food.Insecurity.Rate~Year, data= bind_all)
 ```
-
+You can see that food insecurity is on a general decline, though it did spike again in 2020 (height of the COVID-19 pandemic). Yet, food insecurity for 2020 still did not reach the highest recorded food insecurity rate for the years 2009-2020.
 
 
 ## Table of Food Insecurity and Food Provisioning Over Time
+Two tables were made, so that you can easily view the amount of community gardens there are in Buffalo, New York. The first table lists all known food provisioning resources, and the second table shows only the food provisioning resources after 2008. This is done so that you can see how the community gardens/fridges that were implemented after 2008 may have impacted food insecurity rates. 
 ```{r}
-kable(com_data)%>%# table of all gardens and fridges
+kable(com_data)%>% # table of all gardens and fridges
 kable_classic("striped", full_width = F)
+
 #Table of gardens/fridges with start year after 2008 and food insecurity rate
 gardens_w_year<- com_data%>%
   filter(Start.Year!="NA", Start.Year>2008)%>%
@@ -345,7 +369,9 @@ final_table[9] <- cell_spec(final_table[[9]], color = "white", bold = T,
 kbl(final_table, escape = F, align = "c") %>%
   kable_classic("striped", full_width = F)
 ```
+
 # Map of both food insecurity and gardens per year
+The goal for this section is to show visually how food insecurity has improved as more gardens are implemented. The maps will be faceted by year and points will be added on map for each cumulative amount of gardens in that year. The map will be filled in by color that corresponds to food insecurity rates.
 ```{r}
 data(table1)
   # draw map
@@ -358,9 +384,7 @@ data(table1)
 
 # Conclusions
 
-[~200 words]
-
-Clear summary adequately describing the results and putting them in context. Discussion of further questions and ways to continue investigation.
+Food insecurity is an issue in many regions. There are many factors that influence who will be most affected by food insecurity. One of those factors is individuals that live below the poverty line. Because there are little solutions implemented by the government, many times community efforts make the most impact. The goal of this website was to highlight how the grassroots implementation of community gardens, urban farms, and fridges in Erie County, New York have made an improvement in food insecurity. As, more food provisioning has increased in Erie County there has been a decrease in food insecurity rates. There was a bit of a spike in 2020 which is most likely due to the pandemic in which many people became unemployed or were unable to have access to healthy food due to illness or fear of contracting COVID-19. There also may be other factors that have led to the decrease of food insecurity in Erie County, New York. Nevertheless, we think this can give a general idea about how grassroots actions like community gardens are important and can make a difference for the resilience and sustainability of a community.
 
 
 # Sources
