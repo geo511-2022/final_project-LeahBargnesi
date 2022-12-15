@@ -1,9 +1,6 @@
 ---
 title: "Prevalence of Community Gardens and Fridges in Areas of Food Insecurity in Buffalo, NY"
 authors: Leah Bargnesi and Candice Kasahara
-output:
-  github_document
-always_allow_html: true
 ---
 
 # Introduction
@@ -318,7 +315,7 @@ leaflet(options =
 This graph depicts how food insecurity has changed from 2009-2020.
 ```{r}
 ggplot(bind_all, aes(Year, Food.Insecurity.Rate))+
-  geom_point()+
+  geom_line()+
   xlab("Year")+
   ylab("Rate of Food Insecurity")+
   ggtitle(label = "Rate of Food Insecurity from 2009-2020 for Erie County, New York")
@@ -336,21 +333,12 @@ kable_classic("striped", full_width = F)
 gardens_w_year<- com_data%>%
   filter(Start.Year!="NA", Start.Year>2008)%>%
   mutate(Year = Start.Year)
-table1<- merge(gardens_w_year, bind_all)
-final_table <- table1[1:43, ]
+table2<- merge(gardens_w_year, bind_all)
+final_table <- table2[1:43, ]
 final_table[9] <- cell_spec(final_table[[9]], color = "white", bold = T,
     background = spec_color(1:43, end = 0.9, option = "D", direction = 1, ))
 kbl(final_table, escape = F, align = "c") %>%
   kable_classic("striped", full_width = F)
-```
-
-# Map of both food insecurity and gardens per year
-The goal for this section is to show visually how food insecurity has improved as more gardens are implemented. The maps will be faceted by year and points will be added on map for each cumulative amount of gardens in that year. The map will be filled in by color that corresponds to food insecurity rates.
-```{r}
-data(table1)
-colors = c()
-map("county", region = "new york,erie")
- 
 ```
 
 
