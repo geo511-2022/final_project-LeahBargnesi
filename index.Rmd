@@ -1,8 +1,6 @@
 ---
 title: "Prevalence of Community Gardens and Fridges in Areas of Food Insecurity in Buffalo, NY"
 authors: Leah Bargnesi and Candice Kasahara
-output:
-  github_document
 ---
 
 # Introduction
@@ -124,11 +122,12 @@ After examining the food insecurity choropleth map above, we wanted to look at w
 
 ## Poverty Percent Data for 2020
 ```{r}
+#getwd()
 #US_poverty <- read.csv("Poverty.csv", skip = 5) [-1] %>%
- # mutate(FIPS = paste0(
-  #  sprintf("%02d",State.FIPS.Code),
-   # sprintf("%03d",County.FIPS.Code)),
-   # Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
+ #mutate(FIPS = paste0(
+    #sprintf("%02d",State.FIPS.Code),
+    #sprintf("%03d",County.FIPS.Code)),
+    #Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
 ```
 
 ## U.S. Poverty Percent Choropleth Map 2020
