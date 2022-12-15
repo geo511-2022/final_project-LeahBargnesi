@@ -1,6 +1,9 @@
 ---
 title: "Prevalence of Community Gardens and Fridges in Areas of Food Insecurity in Buffalo, NY"
 authors: Leah Bargnesi and Candice Kasahara
+output:
+  github_document
+always_allow_html: true
 ---
 
 # Introduction
@@ -122,46 +125,46 @@ After examining the food insecurity choropleth map above, we wanted to look at w
 
 ## Poverty Percent Data for 2020
 ```{r}
-#getwd()
-#US_poverty <- read.csv("Poverty.csv", skip = 5) [-1] %>%
- #mutate(FIPS = paste0(
-    #sprintf("%02d",State.FIPS.Code),
-    #sprintf("%03d",County.FIPS.Code)),
-    #Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
+US_poverty <- read.csv("data/Poverty.csv", skip = 6)%>%
+  mutate(State.FIPS.Code = as.integer(State.FIPS.Code), County.FIPS.Code = as.integer(County.FIPS.Code) )%>%
+ mutate(FIPS = paste0(
+    sprintf("%02d",State.FIPS.Code),
+    sprintf("%03d", County.FIPS.Code)),
+    Poverty_Percent=as.numeric(Poverty.Percent..All.Ages))
 ```
 
 ## U.S. Poverty Percent Choropleth Map 2020
 
 ```{r}
 
-#USA_filtered = USA %>% 
-  #mutate(FIPS = as.character(GEOID)) %>%
-  #filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", #"Puerto Rico", "American Samoa", "United States Virgin Islands"))
+USA_filtered = USA %>% 
+  mutate(FIPS = as.character(GEOID)) %>%
+  filter(!STATE_NAME %in% c("Alaska", "Hawaii", "Guam", "Commonwealth of the Northern Mariana Islands", "Puerto Rico", "American Samoa", "United States Virgin Islands"))
 
-#Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
-#my_breaks <- c(0, 10, 20, 30)
-
-
-
-#Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
-
-#my_breaks <- c(0, 10, 20, 30)
+Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
+my_breaks <- c(0, 10, 20, 30)
 
 
-#ggplot() +
-  #geom_sf(data = Poverty_map, color="transparent", size=0, aes(fill=Poverty_Percent)) +
-  #labs(title = "Poverty Rates in the U.S. (by County) in 2020", 
-     #  caption = "Source:  U.S. Census Bureau, Small Area Income
-     #  and Poverty Estimates (SAIPE) Program") +
-  #theme_bw(13)+
-  #theme(plot.caption= element_text(size=7,
-                                   #color="blue",
-                                 #  vjust = 5)) +
-  #theme(plot.title = element_text(hjust = 0.5)) +
-  #scale_fill_gradientn(colours=rev(viridis(6)),
-                        # name="Poverty Rate",
-                        # na.value = "grey100",
-                       # breaks = my_breaks, labels = my_breaks)
+
+Poverty_map = left_join(USA_filtered,US_poverty,by = "FIPS")
+
+my_breaks <- c(0, 10, 20, 30)
+
+
+ggplot() +
+  geom_sf(data = Poverty_map, color="transparent", size=0, aes(fill=Poverty_Percent)) +
+  labs(title = "Poverty Rates in the U.S. (by County) in 2020", 
+       caption = "Source:  U.S. Census Bureau, Small Area Income
+       and Poverty Estimates (SAIPE) Program") +
+  theme_bw(13)+
+  theme(plot.caption= element_text(size=7,
+                                   color="blue",
+                                  vjust = 5)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_gradientn(colours=rev(viridis(6)),
+                         name="Poverty Rate",
+                         na.value = "grey100",
+                        breaks = my_breaks, labels = my_breaks)
 
 ```
 
@@ -173,33 +176,33 @@ Seeing the visual correlation between the food insecurity and poverty percent ch
 
 ## Poverty Percent vs Food Insecurity Data
 ```{r}
-#Poverty <- US_poverty %>%
-  #mutate(FIPS = as.integer(FIPS))
-#Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
+Poverty <- US_poverty %>%
+  mutate(FIPS = as.integer(FIPS))
+Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
 
-#Overall2 <- Overall_map %>%
- # filter(Postal.Code == "NY", Year == "2020") %>%
-  # mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
-
-
-#Overall2 <- Overall_map %>%
-  #filter(Postal.Code == "NY", Year == "2020") %>%
-   #mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+Overall2 <- Overall_map %>%
+  filter(Postal.Code == "NY", Year == "2020") %>%
+  mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
 
 
-# Separating values needed for graphing
-#Overall3 <- subset(Overall2, select = c(FIPS, Food_Insecurity_Rate2, Poverty_Percent))
+Overall2 <- Overall_map %>%
+  filter(Postal.Code == "NY", Year == "2020") %>%
+   mutate(Food_Insecurity_Rate2 = as.numeric(sub("%","",Food_Insecurity_Rate,fixed = T)))
+
+#Separating values needed for graphing
+
+Overall3 <- subset(Overall2, select = c(FIPS, Food_Insecurity_Rate2, Poverty_Percent))
 ```
 
 ## Visualizing Poverty Percent and Food Insecurity Correlation
 ```{r}
-#dot_plot <- ggplot(Overall3, aes(x = Poverty_Percent, y = Food_Insecurity_Rate2)) +
-  #geom_point() +
-  #geom_smooth() +
-  #labs(title = "Poverty Percent vs. Food Insecurity in NYS Counties (2020)", x = "Poverty Percent", y = #"Food Insecurity Rate") +
-  #theme_minimal(13) +
- # theme(plot.title = element_text(hjust = 0.5))
-#dot_plot
+dot_plot <- ggplot(Overall3, aes(x = Poverty_Percent, y = Food_Insecurity_Rate2)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title = "Poverty Percent vs. Food Insecurity in NYS Counties (2020)", x = "Poverty Percent", y = "Food Insecurity Rate") +
+  theme_minimal(13) +
+ theme(plot.title = element_text(hjust = 0.5))
+dot_plot
 ```
 
 In this dot plot, we see a clear correlation between poverty percent and food insecurity. As the poverty percent increases, food insecurity increases linearly as well. With this visualization, it is clear that efforts to reduce food insecurity could aid those who do not surpass the poverty line in New York State.
@@ -345,10 +348,8 @@ kbl(final_table, escape = F, align = "c") %>%
 The goal for this section is to show visually how food insecurity has improved as more gardens are implemented. The maps will be faceted by year and points will be added on map for each cumulative amount of gardens in that year. The map will be filled in by color that corresponds to food insecurity rates.
 ```{r}
 data(table1)
-  # draw map
-  map1<- map("county", region = "new york,erie")
-  
-  
+colors = c()
+map("county", region = "new york,erie")
  
 ```
 
