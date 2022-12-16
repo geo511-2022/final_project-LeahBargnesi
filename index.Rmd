@@ -78,7 +78,8 @@ FS2020 <- subset(FS2020_data, select = c(State, County, Food_Insecurity_Rate, Fo
 ```
 
 ## U.S. Food Insecurity Choropleth Map 2020
-```{r}
+```{r, results=FALSE}
+
 USA <- counties(cb = TRUE)
 
 USA_filter = USA %>% 
@@ -121,7 +122,8 @@ Based on the choropleth map above, we see that most counties in the United State
 After examining the food insecurity choropleth map above, we wanted to look at what some of the drivers of food insecurity to see which neighborhoods urban agriculture and community fridges should benefit or be implemented within. One driver we predict to correlate with food insecurity is the percent of those below the poverty line. According to the [ASPE](https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/prior-hhs-poverty-guidelines-federal-register-references/2020-poverty-guidelines), the national 2020 poverty guideline was on average 12,760 dollars for one person in a household and 44,120 dollars for up to eight in one household. While the poverty guideline does vary per state, for this study, these averages will represent the entirety of the U.S. The data is from the United States Census, [SAIPE State and County Estimates for 2020](https://www.census.gov/data/datasets/2020/demo/saipe/2020-state-and-county.html).
 
 ## Poverty Percent Data for 2020
-```{r}
+```{r, results=FALSE}
+
 US_poverty <- read.csv("data/Poverty.csv", skip = 6)%>%
   mutate(State.FIPS.Code = as.integer(State.FIPS.Code), County.FIPS.Code = as.integer(County.FIPS.Code) )%>%
  mutate(FIPS = paste0(
@@ -172,7 +174,8 @@ In this choropleth map, we see a similar trend as the food insecurity choropleth
 Seeing the visual correlation between the food insecurity and poverty percent choropleth maps, we deemed that it was significant enough to examine through a dot plot. We narrowed down our search to New York State since there are currently multiple initiatives that are combating food scarcity. If there is a noticeable correlation between food insecurity and percent poverty, then this information could be used to further push the implementation and funding for these efforts.
 
 ## Poverty Percent vs Food Insecurity Data
-```{r}
+```{r, results=FALSE}
+
 Poverty <- US_poverty %>%
   mutate(FIPS = as.integer(FIPS))
 Overall_map = left_join(Poverty,FS2020_data, by = "FIPS")
